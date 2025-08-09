@@ -16,6 +16,11 @@ class HarmonicMap {
     this.canvas.addEventListener('dragover', this.handleDragOver.bind(this));
     this.canvas.addEventListener('drop', this.handleDrop.bind(this));
     
+    // Touch event handlers for mobile
+    this.canvas.addEventListener('touchstart', this.handleTouchStart.bind(this));
+    this.canvas.addEventListener('touchmove', this.handleTouchMove.bind(this));
+    this.canvas.addEventListener('touchend', this.handleTouchEnd.bind(this));
+    
     this.setupCanvas();
   }
 
@@ -281,22 +286,34 @@ class HarmonicMap {
   }
 
   drawInstructions() {
+    // Responsive text sizing based on canvas size
+    const isMobile = this.canvas.width < 400;
+    const titleSize = isMobile ? 20 : 28;
+    const mainTextSize = isMobile ? 14 : 20;
+    const secondaryTextSize = isMobile ? 12 : 16;
+    
     // Draw main title
     this.ctx.fillStyle = 'rgba(52, 73, 94, 0.9)';
-    this.ctx.font = 'bold 28px sans-serif';
+    this.ctx.font = `bold ${titleSize}px sans-serif`;
     this.ctx.textAlign = 'center';
     this.ctx.textBaseline = 'middle';
-    this.ctx.fillText('Harmonic Map', this.centerX, this.centerY - 60);
+    this.ctx.fillText('Harmonic Map', this.centerX, this.centerY - (isMobile ? 40 : 60));
     
     // Draw main instruction text
     this.ctx.fillStyle = 'rgba(52, 73, 94, 0.8)';
-    this.ctx.font = 'bold 20px sans-serif';
-    this.ctx.fillText('Drop chords here to build progression', this.centerX, this.centerY - 20);
+    this.ctx.font = `bold ${mainTextSize}px sans-serif`;
     
-    // Draw secondary instruction
-    this.ctx.fillStyle = 'rgba(127, 140, 141, 0.7)';
-    this.ctx.font = '16px sans-serif';
-    this.ctx.fillText('and explore harmonic relationships', this.centerX, this.centerY + 10);
+    if (isMobile) {
+      this.ctx.fillText('Tap chords to build', this.centerX, this.centerY - 10);
+      this.ctx.fillText('harmonic progression', this.centerX, this.centerY + 10);
+    } else {
+      this.ctx.fillText('Drop chords here to build progression', this.centerX, this.centerY - 20);
+      
+      // Draw secondary instruction
+      this.ctx.fillStyle = 'rgba(127, 140, 141, 0.7)';
+      this.ctx.font = `${secondaryTextSize}px sans-serif`;
+      this.ctx.fillText('and explore harmonic relationships', this.centerX, this.centerY + 10);
+    }
   }
 
   drawDragArrow() {
@@ -357,6 +374,45 @@ class HarmonicMap {
     const x = event.clientX - rect.left;
     const y = event.clientY - rect.top;
     
+    this.updateHoveredChord(x, y);
+  }
+  
+  // Touch event handlers
+  handleTouchStart(event) {
+    event.preventDefault();
+    const rect = this.canvas.getBoundingClientRect();
+    const touch = event.touches[0];
+    const x = touch.clientX - rect.left;
+    const y = touch.clientY - rect.top;
+    
+    this.updateHoveredChord(x, y);
+  }
+  
+  handleTouchMove(event) {
+    event.preventDefault();
+    const rect = this.canvas.getBoundingClientRect();
+    const touch = event.touches[0];
+    const x = touch.clientX - rect.left;
+    const y = touch.clientY - rect.top;
+    
+    this.updateHoveredChord(x, y);
+  }
+  
+  handleTouchEnd(event) {
+    event.preventDefault();
+    if (this.hoveredChord && this.hoveredChord !== this.currentChord?.name) {
+      this.navigateToChord(this.hoveredChord);
+    }
+    // Clear hover state after touch
+    setTimeout(() => {
+      this.hoveredChord = null;
+      this.clearNextChordDisplay();
+      this.render();
+    }, 100);
+  }
+  
+  // Unified method for updating hovered chord (used by both mouse and touch)
+  updateHoveredChord(x, y) {
     let newHoveredChord = null;
     
     this.chordPositions.forEach((pos, chordName) => {
@@ -380,7 +436,7 @@ class HarmonicMap {
       }
     }
     
-    // Change cursor
+    // Change cursor (only relevant for desktop)
     this.canvas.style.cursor = newHoveredChord ? 'pointer' : 'default';
   }
 
