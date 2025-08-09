@@ -2,28 +2,30 @@ let canvas;
 let ctx;
 let audioContext;
 let tempo = 120;
-let fretboard;
-let flowVisualizer;
+let harmonicMap;
+let currentFretboard;
+let nextFretboard;
 
 function initializeApp() {
-    // Set up canvas
-    canvas = document.getElementById('flow-visualization');
-    ctx = canvas.getContext('2d');
+    // Initialize HarmonicMap
+    harmonicMap = new HarmonicMap('harmonic-map');
+    harmonicMap.startAnimation();
     
-    // Initialize FlowVisualizer
-    flowVisualizer = new FlowVisualizer('flow-visualization');
-    flowVisualizer.setupCanvas();
+    // Initialize fretboards for current/next chord display
+    currentFretboard = new Fretboard('current-fretboard', { mini: true });
+    nextFretboard = new Fretboard('next-fretboard', { mini: true });
+    
+    // Make fretboards globally available
+    window.currentFretboard = currentFretboard;
+    window.nextFretboard = nextFretboard;
     
     // Set up audio context
     audioContext = new (window.AudioContext || window.webkitAudioContext)();
     
-    // Set up control buttons
-    document.getElementById('play-btn').addEventListener('click', playProgression);
-    document.getElementById('clear-btn').addEventListener('click', () => {
-        clearProgression();
-        flowVisualizer.clearCanvas();
-    });
-    document.getElementById('tempo-btn').addEventListener('click', changeTempo);
+    // Audio will be triggered automatically on chord navigation
+    
+    // Make chord playing function globally available
+    window.playChord = playChord;
 }
 
 function setupCanvas() {
@@ -60,30 +62,39 @@ function drawFlowVisualization(progression) {
     }
 }
 
-function playProgression() {
-    const filledChords = progression.filter(chord => chord !== null);
-    if (filledChords.length === 0) return;
+function playCurrentChord() {
+    if (!harmonicMap.currentChord) return;
     
-    const beatDuration = 60 / tempo; // Duration of one beat in seconds
+    playChord(harmonicMap.currentChord.name);
+}
+
+function playChord(chordName) {
+    const chord = CHORD_LIBRARY.find(c => c.name === chordName);
+    if (!chord) return;
     
-    filledChords.forEach((chordName, index) => {
-        const chord = CHORD_LIBRARY.find(c => c.name === chordName);
-        const startTime = audioContext.currentTime + (index * beatDuration);
-        
-        // Play each note in the chord
-        chord.frequencies.forEach(freq => {
-            playNote(freq, startTime, beatDuration * 0.9);
-        });
-        
-        // Animate the chord slot
-        setTimeout(() => {
-            const slot = document.querySelector(`[data-slot="${progression.indexOf(chordName)}"]`);
-            if (slot) {
-                slot.classList.add('playing');
-                setTimeout(() => slot.classList.remove('playing'), 500);
-            }
-        }, index * beatDuration * 1000);
+    const startTime = audioContext.currentTime;
+    const duration = 2.0; // 2 second chord duration
+    
+    // Play each note in the chord
+    chord.frequencies.forEach(freq => {
+        playNote(freq, startTime, duration);
     });
+}
+
+function clearCurrentChord() {
+    harmonicMap.currentChord = null;
+    harmonicMap.surroundingChords = [];
+    harmonicMap.render();
+    
+    // Clear displays
+    const currentNameEl = document.getElementById('current-chord-name');
+    const nextNameEl = document.getElementById('next-chord-name');
+    
+    if (currentNameEl) currentNameEl.textContent = 'Select a chord';
+    if (nextNameEl) nextNameEl.textContent = 'Hover to preview';
+    
+    if (currentFretboard) currentFretboard.clear();
+    if (nextFretboard) nextFretboard.clear();
 }
 
 function playNote(frequency, startTime, duration) {
@@ -125,8 +136,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Handle window resize
 window.addEventListener('resize', () => {
-    if (flowVisualizer) {
-        flowVisualizer.setupCanvas();
-        flowVisualizer.drawFlowLines(progression);
+    if (harmonicMap) {
+        harmonicMap.setupCanvas();
     }
 });

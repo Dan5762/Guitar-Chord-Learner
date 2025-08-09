@@ -16,25 +16,6 @@ function initializeDragDrop() {
     // Apply initial filter
     filterChords(currentFilter);
     
-    // Initialize mini fretboards
-    for (let i = 0; i < 4; i++) {
-        const miniFretboard = new Fretboard(`mini-fretboard-${i}`, { mini: true });
-        miniFretboards[i] = miniFretboard;
-    }
-    
-    // Set up drop zones - now using chord-slots instead of drop-slots
-    const chordSlots = document.querySelectorAll('.chord-slot');
-    chordSlots.forEach((slot, index) => {
-        slot.addEventListener('dragover', handleDragOver);
-        slot.addEventListener('drop', (e) => handleDrop(e, index));
-        slot.addEventListener('dragleave', handleDragLeave);
-        
-        // Add click handler (no longer needed for main fretboard)
-        slot.addEventListener('click', (e) => {
-            // Click handling can be added here if needed
-        });
-    });
-    
     // Set up type selector buttons
     typeButtons.forEach(btn => {
         btn.addEventListener('click', (e) => {
@@ -48,16 +29,16 @@ function initializeDragDrop() {
         });
     });
     
-    // Set up chord card click handlers for fretboard preview
-    setupChordPreview();
+    // Set up chord card click handlers for navigation
+    setupChordNavigation();
 }
 
-function setupChordPreview() {
+function setupChordNavigation() {
     const chordCards = document.querySelectorAll('.chord-card');
     chordCards.forEach(card => {
         card.addEventListener('click', (e) => {
-            // Chord preview functionality can be added here if needed
-            // Currently using mini fretboards in progression slots
+            const chordName = card.dataset.chord;
+            handleChordNavigation(chordName);
         });
     });
 }
@@ -77,7 +58,7 @@ function filterChords(type) {
     });
     
     // Re-setup click handlers after filtering
-    setupChordPreview();
+    setupChordNavigation();
 }
 
 function createChordCard(chordName, chordData) {
@@ -125,31 +106,11 @@ function handleDragLeave(e) {
     e.currentTarget.classList.remove('drag-over');
 }
 
-function handleDrop(e, slotIndex) {
-    e.preventDefault();
-    e.currentTarget.classList.remove('drag-over');
-    
-    const chordName = e.dataTransfer.getData('text/plain');
-    const slot = e.currentTarget;
-    
-    // Update progression array
-    progression[slotIndex] = chordName;
-    
-    // Update slot visual
-    slot.classList.add('has-chord');
-    
-    // Update chord title
-    const chordTitle = slot.querySelector('.chord-title');
-    chordTitle.textContent = chordName;
-    
-    // Show mini fretboard for the dropped chord
-    const chordData = CHORD_LIBRARY.find(chord => chord.name === chordName);
-    if (chordData && miniFretboards[slotIndex]) {
-        miniFretboards[slotIndex].render(chordData);
+// Navigation-based drop handler (no longer using slots)
+function handleChordNavigation(chordName) {
+    if (window.harmonicMap) {
+        window.harmonicMap.navigateToChord(chordName);
     }
-    
-    // Trigger visualization update
-    updateVisualization();
 }
 
 // createSlotChord function no longer needed - using integrated chord-slot design

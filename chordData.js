@@ -318,6 +318,56 @@ const CHORD_LIBRARY = [
       fingers: [3, 2, 0, 0, 0, 1]
     }
   },
+  {
+    name: 'A#maj7',
+    type: 'major7',
+    notes: ['A#', 'D', 'F', 'A'],
+    frequencies: [233.08, 293.66, 349.23, 440.00],
+    fretPattern: {
+      strings: [1, 1, 3, 2, 3, 1],
+      fingers: [1, 1, 3, 2, 4, 1]
+    }
+  },
+  {
+    name: 'C#maj7',
+    type: 'major7',
+    notes: ['C#', 'F', 'G#', 'C'],
+    frequencies: [277.18, 349.23, 415.30, 523.25],
+    fretPattern: {
+      strings: [4, 4, 6, 5, 6, 4],
+      fingers: [1, 1, 3, 2, 4, 1]
+    }
+  },
+  {
+    name: 'D#maj7',
+    type: 'major7',
+    notes: ['D#', 'G', 'A#', 'D'],
+    frequencies: [311.13, 392.00, 466.16, 587.33],
+    fretPattern: {
+      strings: [-1, -1, 1, 3, 3, 3],
+      fingers: [0, 0, 1, 2, 2, 2]
+    }
+  },
+  {
+    name: 'F#maj7',
+    type: 'major7',
+    notes: ['F#', 'A#', 'C#', 'F'],
+    frequencies: [369.99, 466.16, 554.37, 698.46],
+    fretPattern: {
+      strings: [2, 4, 3, 3, 2, 2],
+      fingers: [1, 4, 2, 3, 1, 1]
+    }
+  },
+  {
+    name: 'G#maj7',
+    type: 'major7',
+    notes: ['G#', 'C', 'D#', 'G'],
+    frequencies: [207.65, 261.63, 311.13, 392.00],
+    fretPattern: {
+      strings: [4, 3, 1, 1, 1, 3],
+      fingers: [3, 2, 1, 1, 1, 4]
+    }
+  },
 
   // Minor 7th chords
   {
@@ -390,6 +440,56 @@ const CHORD_LIBRARY = [
       fingers: [1, 3, 1, 1, 1, 1]
     }
   },
+  {
+    name: 'A#m7',
+    type: 'minor7',
+    notes: ['A#', 'C#', 'F', 'G#'],
+    frequencies: [233.08, 277.18, 349.23, 415.30],
+    fretPattern: {
+      strings: [1, 1, 3, 1, 2, 1],
+      fingers: [1, 1, 3, 1, 2, 1]
+    }
+  },
+  {
+    name: 'C#m7',
+    type: 'minor7',
+    notes: ['C#', 'E', 'G#', 'B'],
+    frequencies: [277.18, 329.63, 415.30, 493.88],
+    fretPattern: {
+      strings: [4, 4, 6, 4, 5, 4],
+      fingers: [1, 1, 3, 1, 2, 1]
+    }
+  },
+  {
+    name: 'D#m7',
+    type: 'minor7',
+    notes: ['D#', 'F#', 'A#', 'C#'],
+    frequencies: [311.13, 369.99, 466.16, 554.37],
+    fretPattern: {
+      strings: [-1, -1, 1, 3, 2, 2],
+      fingers: [0, 0, 1, 3, 2, 2]
+    }
+  },
+  {
+    name: 'F#m7',
+    type: 'minor7',
+    notes: ['F#', 'A', 'C#', 'E'],
+    frequencies: [369.99, 440.00, 554.37, 659.25],
+    fretPattern: {
+      strings: [2, 4, 2, 2, 2, 2],
+      fingers: [1, 3, 1, 1, 1, 1]
+    }
+  },
+  {
+    name: 'G#m7',
+    type: 'minor7',
+    notes: ['G#', 'B', 'D#', 'F#'],
+    frequencies: [207.65, 246.94, 311.13, 369.99],
+    fretPattern: {
+      strings: [4, 6, 4, 4, 4, 4],
+      fingers: [1, 3, 1, 1, 1, 1]
+    }
+  },
 
   // Diminished 7th chords
   {
@@ -459,6 +559,56 @@ const CHORD_LIBRARY = [
     frequencies: [196.00, 233.08, 277.18, 329.63],
     fretPattern: {
       strings: [3, 4, 3, 4, 3, 3],
+      fingers: [1, 3, 1, 4, 1, 1]
+    }
+  },
+  {
+    name: 'A#dim7',
+    type: 'diminished7',
+    notes: ['A#', 'C#', 'E', 'G'],
+    frequencies: [233.08, 277.18, 329.63, 392.00],
+    fretPattern: {
+      strings: [6, 7, 6, 6, 6, 6],
+      fingers: [1, 2, 1, 1, 1, 1]
+    }
+  },
+  {
+    name: 'C#dim7',
+    type: 'diminished7',
+    notes: ['C#', 'E', 'G', 'A#'],
+    frequencies: [277.18, 329.63, 392.00, 466.16],
+    fretPattern: {
+      strings: [4, 5, 3, 4, 3, 4],
+      fingers: [2, 4, 1, 3, 1, 2]
+    }
+  },
+  {
+    name: 'D#dim7',
+    type: 'diminished7',
+    notes: ['D#', 'F#', 'A', 'C'],
+    frequencies: [311.13, 369.99, 440.00, 523.25],
+    fretPattern: {
+      strings: [-1, -1, 1, 2, 1, 2],
+      fingers: [0, 0, 1, 3, 1, 4]
+    }
+  },
+  {
+    name: 'F#dim7',
+    type: 'diminished7',
+    notes: ['F#', 'A', 'C', 'D#'],
+    frequencies: [369.99, 440.00, 523.25, 622.25],
+    fretPattern: {
+      strings: [2, 3, 1, 2, 1, 2],
+      fingers: [3, 4, 1, 2, 1, 3]
+    }
+  },
+  {
+    name: 'G#dim7',
+    type: 'diminished7',
+    notes: ['G#', 'B', 'D', 'F'],
+    frequencies: [415.30, 493.88, 587.33, 698.46],
+    fretPattern: {
+      strings: [4, 5, 4, 5, 4, 4],
       fingers: [1, 3, 1, 4, 1, 1]
     }
   }

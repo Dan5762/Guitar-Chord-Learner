@@ -36,7 +36,7 @@ class Fretboard {
     this.svg.setAttribute('width', this.width);
     this.svg.setAttribute('height', this.height);
     this.svg.setAttribute('viewBox', `0 0 ${this.width} ${this.height}`);
-    this.svg.style.border = '1px solid #444'; // Debug border
+    // this.svg.style.border = '1px solid #444'; // Debug border removed
     console.log('SVG created with dimensions:', this.width, 'x', this.height);
     this.container.appendChild(this.svg);
     
