@@ -3,13 +3,16 @@ let ctx;
 let audioContext;
 let tempo = 120;
 let fretboard;
+let flowVisualizer;
 
 function initializeApp() {
     // Set up canvas
     canvas = document.getElementById('flow-visualization');
     ctx = canvas.getContext('2d');
     
-    // Note: Main fretboard removed, using mini fretboards instead
+    // Initialize FlowVisualizer
+    flowVisualizer = new FlowVisualizer('flow-visualization');
+    flowVisualizer.setupCanvas();
     
     // Set up audio context
     audioContext = new (window.AudioContext || window.webkitAudioContext)();
@@ -18,12 +21,9 @@ function initializeApp() {
     document.getElementById('play-btn').addEventListener('click', playProgression);
     document.getElementById('clear-btn').addEventListener('click', () => {
         clearProgression();
-        clearCanvas();
+        flowVisualizer.clearCanvas();
     });
     document.getElementById('tempo-btn').addEventListener('click', changeTempo);
-    
-    // Initial canvas setup
-    setupCanvas();
 }
 
 function setupCanvas() {
@@ -55,80 +55,9 @@ function clearCanvas() {
 }
 
 function drawFlowVisualization(progression) {
-    clearCanvas();
-    
-    const chordWidth = canvas.width / 5;
-    const noteHeight = canvas.height / 4;
-    
-    // Draw each chord and connections
-    progression.forEach((chordName, index) => {
-        if (!chordName) return;
-        
-        const chord = CHORD_LIBRARY.find(c => c.name === chordName);
-        const x = (index + 1) * chordWidth;
-        
-        // Draw chord name
-        ctx.fillStyle = '#000000';
-        ctx.font = 'bold 18px sans-serif';
-        ctx.textAlign = 'center';
-        ctx.fillText(chordName, x, 30);
-        
-        // Draw notes
-        chord.notes.forEach((note, noteIndex) => {
-            const y = 60 + noteIndex * noteHeight;
-            
-            // Draw note circle
-            ctx.beginPath();
-            ctx.arc(x, y, 20, 0, Math.PI * 2);
-            ctx.fillStyle = '#ffffff';
-            ctx.fill();
-            ctx.strokeStyle = '#000000';
-            ctx.lineWidth = 2;
-            ctx.stroke();
-            
-            // Draw note name
-            ctx.fillStyle = '#000000';
-            ctx.font = '14px sans-serif';
-            ctx.textAlign = 'center';
-            ctx.textBaseline = 'middle';
-            ctx.fillText(note, x, y);
-        });
-        
-        // Draw connections to next chord
-        if (index < progression.length - 1 && progression[index + 1]) {
-            const nextChord = CHORD_LIBRARY.find(c => c.name === progression[index + 1]);
-            const nextX = (index + 2) * chordWidth;
-            
-            chord.frequencies.forEach((freq1, i) => {
-                nextChord.frequencies.forEach((freq2, j) => {
-                    const ratio = calculateIntervalRatio(freq1, freq2);
-                    if (ratio) {
-                        const y1 = 60 + i * noteHeight;
-                        const y2 = 60 + j * noteHeight;
-                        
-                        // Draw curved connection line
-                        ctx.beginPath();
-                        ctx.strokeStyle = '#000000';
-                        ctx.lineWidth = 2;
-                        ctx.globalAlpha = 0.5;
-                        
-                        const controlX = (x + nextX) / 2;
-                        const controlY = (y1 + y2) / 2 - 30;
-                        
-                        ctx.moveTo(x + 20, y1);
-                        ctx.quadraticCurveTo(controlX, controlY, nextX - 20, y2);
-                        ctx.stroke();
-                        
-                        // Draw interval label
-                        ctx.globalAlpha = 1;
-                        ctx.fillStyle = '#000000';
-                        ctx.font = '12px sans-serif';
-                        ctx.fillText(ratio.name, controlX, controlY);
-                    }
-                });
-            });
-        }
-    });
+    if (flowVisualizer) {
+        flowVisualizer.drawFlowLines(progression);
+    }
 }
 
 function playProgression() {
@@ -196,6 +125,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Handle window resize
 window.addEventListener('resize', () => {
-    setupCanvas();
-    drawFlowVisualization(progression);
+    if (flowVisualizer) {
+        flowVisualizer.setupCanvas();
+        flowVisualizer.drawFlowLines(progression);
+    }
 });
