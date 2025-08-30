@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guitar Chord Progression Learner - Interactive Music Theory Tool</title>
+    <meta name="description" content="Interactive guitar chord progression tool with Circle of Fifths visualization, fretboard diagrams, and audio playback for learning music theory.">
+    <meta name="robots" content="index, follow">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="canonical" href="https://learn-chords.com/app/">
+</head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-LMVJLQ39V2"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-LMVJLQ39V2');
+</script>
+<body>
+    <div id="app">
+        <!-- Main harmonic map area -->
+        <main id="harmonic-main" class="panel">
+            <h1 class="sr-only">Interactive Guitar Chord Progression Tool</h1>
+            <div id="selector-row">
+                <div class="selector-group">
+                    <label for="view-select" class="sr-only">Select harmonic visualization type</label>
+                    <select id="view-select" aria-label="Select harmonic view">
+                        <option value="" disabled selected>Select harmonic view</option>
+                        <option value="circle-of-fifths">Circle of Fifths</option>
+                        <option value="coming-soon-1" disabled>Nashville Numbers (coming soon)</option>
+                        <option value="coming-soon-2" disabled>Chord Functions (coming soon)</option>
+                        <option value="coming-soon-3" disabled>Voice Leading (coming soon)</option>
+                    </select>
+                </div>
+                <div class="selector-group">
+                    <label for="context-select" class="sr-only">Select harmonic context</label>
+                    <select id="context-select" style="display: none;" aria-label="Select context">
+                        <option value="" disabled selected>Select context</option>
+                        <option value="tonic">As Tonic (i)</option>
+                        <option value="relative">As Relative (vi)</option>
+                    </select>
+                </div>
+            </div>
+            <div id="harmonic-map-container">
+                <canvas id="harmonic-map" width="600" height="600" aria-label="Interactive Circle of Fifths chord progression map"></canvas>
+            </div>
+            <div id="chord-history" class="chord-history-container">
+                <div class="chord-history-item empty desktop-only" data-position="4">-</div>
+                <div class="chord-history-item empty desktop-only" data-position="3">-</div>
+                <div class="chord-history-item empty" data-position="2">-</div>
+                <div class="chord-history-item empty" data-position="1">-</div>
+                <div class="chord-history-item empty" data-position="0">-</div>
+            </div>
+        </main>
+
+        <!-- Tab selector at bottom -->
+        <nav id="tab-selector">
+            <button class="tab-btn" data-tab="chord-library">
+                <span class="tab-icon">🎵</span>
+                <span class="tab-label">Chords</span>
+            </button>
+            <button class="tab-btn active" data-tab="harmonic-view">
+                <span class="tab-icon">⭕</span>
+                <span class="tab-label">Harmonic</span>
+            </button>
+            <button class="tab-btn" data-tab="chord-diagrams">
+                <span class="tab-icon">🎸</span>
+                <span class="tab-label">Diagram</span>
+            </button>
+        </nav>
+
+        <!-- Tab content panels -->
+        <section id="chord-library" class="tab-panel panel" aria-label="Chord Library">
+            <h2 class="sr-only">Chord Library</h2>
+            <div id="chord-type-selector">
+                <div class="type-row">
+                    <button class="type-btn active" data-type="major">Major</button>
+                    <button class="type-btn" data-type="minor">Minor</button>
+                </div>
+                <div class="type-row">
+                    <button class="type-btn" data-type="major7">Maj7</button>
+                    <button class="type-btn" data-type="minor7">Min7</button>
+                    <button class="type-btn" data-type="diminished7">Dim7</button>
+                </div>
+            </div>
+            <div id="chord-cards-container">
+                <!-- Draggable chord cards will be generated here -->
+            </div>
+        </section>
+        
+        <section id="chord-diagrams" class="tab-panel panel" aria-label="Guitar Fretboard Diagrams">
+            <h2 class="sr-only">Guitar Fretboard Diagrams</h2>
+            <div id="chord-displays-column">
+                <div id="current-chord-display">
+                    <h3>Selected Chord</h3>
+                    <div id="current-chord-name">Select a chord</div>
+                    <div class="fretboard-container" id="current-fretboard" aria-label="Current chord fretboard diagram"></div>
+                </div>
+                
+                <div id="next-chord-display">
+                    <h3>Next Chord Preview</h3>
+                    <div id="next-chord-name">Hover to preview</div>
+                    <div class="fretboard-container" id="next-fretboard" aria-label="Next chord fretboard diagram"></div>
+                </div>
+            </div>
+        </section>
+    </div>
+    
+    <script src="chordData.js"></script>
+    <script src="fretboard.js"></script>
+    <script src="flowLines.js"></script>
+    <script src="harmonicMap.js"></script>
+    <script src="dragDrop.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
