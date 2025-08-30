@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>D Major7 Guitar Chord | Learn Chords</title>
+    <meta name="description" content="Learn the D Major7 guitar chord with interactive fretboard diagram, music theory, and common progressions. Perfect for guitarists at any level.">
+    <meta name="keywords" content="D Major7 guitar chord, D F# A C#, guitar fretboard, music theory, chord progressions">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="D Major7 Guitar Chord">
+    <meta property="og:description" content="Interactive D Major7 chord with fretboard diagram and theory explanation">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://learn-chords.com/chords/d-major/">
+    
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "MusicComposition",
+      "name": "D Major7 Guitar Chord",
+      "description": "Guitar chord diagram and theory for D Major7",
+      "musicalKey": "D",
+      "genre": "Guitar Instruction",
+      "composer": {
+        "@type": "Organization",
+        "name": "Learn Chords"
+      }
+    }
+    </script>
+    
+    <link rel="stylesheet" href="../../styles.css">
+    <link rel="canonical" href="https://learn-chords.com/chords/d-major/">
+</head>
+<body>
+    <nav class="breadcrumb">
+        <a href="../../">Learn Chords</a> > 
+        <a href="../../chord-types/major7/">Major7 Chords</a> > 
+        <span>D Major7</span>
+    </nav>
+    
+    <main class="chord-page">
+        <header class="chord-header">
+            <h1>D Major7 Guitar Chord</h1>
+            <p class="chord-notes">Notes: D • F# • A • C#</p>
+        </header>
+        
+        <section class="chord-diagram-section">
+            <div class="fretboard-container" id="chord-fretboard"></div>
+            <a href="../../app/index.html?chord=Dmaj7" class="app-link">Practice in Interactive App</a>
+        </section>
+        
+        <section class="chord-theory">
+            <h2>Music Theory</h2>
+            <p class="theory-explanation">
+                The D Major7 chord is built from the D, F#, A, C# notes, 
+                creating a tense, unstable sound that seeks resolution.
+            </p>
+        </section>
+        
+        <section class="related-progressions">
+            <h2>Common Progressions</h2>
+            <div class="progression-links">
+                
+            </div>
+        </section>
+    </main>
+    
+    <script src="../app/fretboard.js"></script>
+    <script>
+        // Initialize fretboard with chord data
+        const chordData = {"name":"Dmaj7","type":"major7","notes":["D","F#","A","C#"],"frequencies":[293.66,369.99,440,554.37],"fretPattern":{"strings":[-1,-1,0,2,2,2],"fingers":[0,0,0,1,1,1]}};
+        const fretboard = new Fretboard('chord-fretboard');
+        fretboard.render(chordData);
+    </script>
+</body>
+</html>

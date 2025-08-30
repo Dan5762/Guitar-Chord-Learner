@@ -227,6 +227,55 @@
             font-size: 0.9rem;
         }
         
+        .content-navigation {
+            padding: 5rem 0;
+            background: rgba(255, 255, 255, 0.5);
+        }
+        
+        .content-navigation h2 {
+            text-align: center;
+            margin-bottom: 3rem;
+            font-size: clamp(1.8rem, 3.5vw, 2.5rem);
+            color: #2c3e50;
+            font-weight: 600;
+        }
+        
+        .nav-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+        
+        .nav-card {
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            text-decoration: none;
+            color: inherit;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(52, 73, 94, 0.1);
+            text-align: center;
+        }
+        
+        .nav-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+        
+        .nav-card h3 {
+            color: #2c3e50;
+            margin-bottom: 1rem;
+            font-weight: 600;
+            font-size: 1.3rem;
+        }
+        
+        .nav-card p {
+            color: #34495e;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+        
         @media (max-width: 768px) {
             header {
                 padding: 4rem 0 3rem;
@@ -250,6 +299,18 @@
             
             .demo-section {
                 padding: 4rem 0;
+            }
+            
+            .content-navigation {
+                padding: 3rem 0;
+            }
+            
+            .nav-grid {
+                gap: 1.5rem;
+            }
+            
+            .nav-card {
+                padding: 1.5rem;
             }
         }
     </style>
@@ -284,6 +345,30 @@
                     <h3>Instant Audio</h3>
                     <p>Hear chords immediately with built-in synthesis. Train your ear while learning progressions.</p>
                 </div>
+            </div>
+        </div>
+    </section>
+    
+    <section class="content-navigation">
+        <div class="container">
+            <h2>Explore Music Theory</h2>
+            <div class="nav-grid">
+                <a href="chord-types/" class="nav-card">
+                    <h3>Chord Types</h3>
+                    <p>Major, minor, diminished chords explained</p>
+                </a>
+                <a href="progressions/" class="nav-card">
+                    <h3>Progressions</h3>
+                    <p>Essential chord progressions with theory</p>
+                </a>
+                <a href="chords/" class="nav-card">
+                    <h3>All Chords</h3>
+                    <p>Complete chord library with diagrams</p>
+                </a>
+                <a href="learn/" class="nav-card">
+                    <h3>Learning Hub</h3>
+                    <p>Articles, guides, and music theory tutorials</p>
+                </a>
             </div>
         </div>
     </section>

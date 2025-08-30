@@ -1,0 +1,733 @@
+/* Global link styling */
+a {
+    color: #3498db;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+a:hover {
+    color: #2980b9;
+}
+
+/* Content area links - remove underlines and style nicely */
+.article-content a, .chord-theory a, .progression-theory a, 
+.chord-breakdown a, .song-examples a, main p a, main li a {
+    color: #3498db;
+    text-decoration: none;
+    font-weight: 600;
+    border-bottom: 1px solid rgba(52, 152, 219, 0.3);
+    padding-bottom: 1px;
+    transition: all 0.3s ease;
+}
+
+.article-content a:hover, .chord-theory a:hover, .progression-theory a:hover,
+.chord-breakdown a:hover, .song-examples a:hover, main p a:hover, main li a:hover {
+    color: #2980b9;
+    border-bottom-color: #2980b9;
+    background: rgba(52, 152, 219, 0.1);
+    padding: 2px 6px;
+    margin: -2px -6px;
+    border-radius: 4px;
+}
+
+/* Shared styles for content pages */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+    line-height: 1.6;
+    color: #2c3e50;
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    min-height: 100vh;
+    font-weight: 300;
+}
+
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+        radial-gradient(circle at 20% 30%, rgba(52, 152, 219, 0.15) 0%, transparent 50%),
+        radial-gradient(circle at 80% 70%, rgba(231, 76, 60, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 50% 90%, rgba(155, 89, 182, 0.12) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: -1;
+}
+
+.breadcrumb {
+    padding: 1rem 2rem;
+    color: #34495e;
+    font-size: 0.9rem;
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(52, 73, 94, 0.1);
+}
+
+.breadcrumb a {
+    color: #3498db;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.breadcrumb a:hover {
+    color: #2980b9;
+}
+
+main {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 3rem 2rem;
+}
+
+/* Chord Page Styles */
+.chord-header {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.chord-header h1 {
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 700;
+    color: #2c3e50;
+    margin-bottom: 1rem;
+}
+
+.chord-notes {
+    font-size: 1.2rem;
+    color: #34495e;
+    font-weight: 600;
+}
+
+.chord-diagram-section {
+    text-align: center;
+    margin-bottom: 4rem;
+    padding: 2rem;
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(20px);
+    border-radius: 20px;
+    border: 1px solid rgba(52, 73, 94, 0.1);
+}
+
+.fretboard-container {
+    margin: 2rem auto;
+    max-width: 300px;
+}
+
+.app-link {
+    display: inline-block;
+    background: linear-gradient(135deg, #3498db, #2980b9);
+    color: white;
+    padding: 1rem 2rem;
+    text-decoration: none;
+    border-radius: 50px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    box-shadow: 0 8px 32px rgba(52, 152, 219, 0.25);
+    margin-top: 1rem;
+}
+
+.app-link:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 40px rgba(52, 152, 219, 0.35);
+}
+
+.app-link.large {
+    padding: 1.2rem 2.5rem;
+    font-size: 1.1rem;
+}
+
+.chord-theory, .related-progressions {
+    margin-bottom: 3rem;
+}
+
+.chord-theory h2, .related-progressions h2 {
+    font-size: 1.8rem;
+    color: #2c3e50;
+    margin-bottom: 1.5rem;
+    font-weight: 600;
+}
+
+.theory-explanation {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: #34495e;
+}
+
+.progression-links {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+}
+
+.progression-card {
+    padding: 1.5rem;
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 15px;
+    text-decoration: none;
+    color: inherit;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(52, 73, 94, 0.1);
+}
+
+.progression-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.progression-card h3 {
+    color: #2c3e50;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+}
+
+.progression-card p {
+    color: #34495e;
+    font-size: 0.9rem;
+}
+
+/* Progression Page Styles */
+.progression-header {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.progression-header h1 {
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 700;
+    color: #2c3e50;
+    margin-bottom: 1rem;
+}
+
+.progression-chords {
+    font-size: 1.4rem;
+    color: #3498db;
+    font-weight: 600;
+}
+
+.progression-theory, .chord-breakdown, .song-examples {
+    margin-bottom: 3rem;
+    padding: 2rem;
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(20px);
+    border-radius: 20px;
+    border: 1px solid rgba(52, 73, 94, 0.1);
+}
+
+.progression-theory h2, .chord-breakdown h2, .song-examples h2 {
+    font-size: 1.8rem;
+    color: #2c3e50;
+    margin-bottom: 1.5rem;
+    font-weight: 600;
+}
+
+.chord-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+}
+
+.chord-item {
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 10px;
+    text-decoration: none;
+    color: inherit;
+    transition: all 0.3s ease;
+    text-align: center;
+}
+
+.chord-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+.chord-item h3 {
+    color: #2c3e50;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+}
+
+.song-list {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+}
+
+.song-list li {
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 10px;
+    text-align: center;
+    font-weight: 500;
+}
+
+.practice-section {
+    text-align: center;
+    margin-top: 3rem;
+}
+
+/* Category Page Styles */
+.category-header, .progression-header {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.chord-grid, .type-grid, .progression-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 3rem;
+}
+
+.chord-card, .type-card {
+    padding: 1.5rem;
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(20px);
+    border-radius: 15px;
+    text-decoration: none;
+    color: inherit;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(52, 73, 94, 0.1);
+    text-align: center;
+}
+
+.chord-card:hover, .type-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+}
+
+.chord-card h3, .type-card h3 {
+    color: #2c3e50;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    font-size: 1.2rem;
+}
+
+.chord-card p, .type-card p {
+    color: #34495e;
+    font-size: 0.9rem;
+}
+
+/* Index Page Styles */
+.index-page header {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.index-page h1 {
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 700;
+    color: #2c3e50;
+    margin-bottom: 1rem;
+}
+
+.index-page p {
+    font-size: 1.2rem;
+    color: #34495e;
+}
+
+/* Learning Hub Styles */
+.learn-hub {
+    max-width: 1000px;
+}
+
+.hub-header {
+    text-align: center;
+    margin-bottom: 4rem;
+}
+
+.hub-header h1 {
+    font-size: clamp(2.5rem, 4vw, 3.5rem);
+    font-weight: 700;
+    color: #2c3e50;
+    margin-bottom: 1rem;
+}
+
+.featured-articles {
+    margin-bottom: 4rem;
+}
+
+.featured-articles h2 {
+    font-size: 2rem;
+    color: #2c3e50;
+    margin-bottom: 2rem;
+    font-weight: 600;
+}
+
+.article-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-bottom: 3rem;
+}
+
+.article-card {
+    padding: 2rem;
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(20px);
+    border-radius: 20px;
+    border: 1px solid rgba(52, 73, 94, 0.1);
+    transition: all 0.3s ease;
+}
+
+.article-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+}
+
+.article-card.featured {
+    border: 2px solid #3498db;
+    background: linear-gradient(135deg, rgba(52, 152, 219, 0.05), rgba(255, 255, 255, 0.9));
+}
+
+.article-meta {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+    font-size: 0.85rem;
+    color: #7f8c8d;
+}
+
+.category {
+    background: #3498db;
+    color: white;
+    padding: 0.3rem 0.8rem;
+    border-radius: 20px;
+    font-weight: 600;
+}
+
+.article-card h3 {
+    margin-bottom: 1rem;
+    font-size: 1.3rem;
+    font-weight: 600;
+}
+
+.article-card h3 a {
+    text-decoration: none;
+    color: #2c3e50;
+}
+
+.article-card h3 a:hover {
+    color: #3498db;
+}
+
+.article-tags {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 1rem;
+}
+
+.tag {
+    background: #ecf0f1;
+    color: #34495e;
+    padding: 0.3rem 0.8rem;
+    border-radius: 15px;
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+.learning-categories {
+    margin-bottom: 4rem;
+}
+
+.category-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+}
+
+.category-card, .type-card {
+    padding: 2rem;
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(20px);
+    border-radius: 20px;
+    text-decoration: none;
+    color: inherit;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(52, 73, 94, 0.1);
+    text-align: center;
+    position: relative;
+}
+
+.category-card:hover, .type-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+}
+
+.type-icon {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    display: block;
+}
+
+.article-count, .chord-count {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: #3498db;
+    color: white;
+    padding: 0.3rem 0.8rem;
+    border-radius: 15px;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.practice-cta {
+    text-align: center;
+    padding: 3rem 2rem;
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(20px);
+    border-radius: 20px;
+    border: 1px solid rgba(52, 73, 94, 0.1);
+}
+
+.cta-content h2 {
+    font-size: 2rem;
+    color: #2c3e50;
+    margin-bottom: 1rem;
+    font-weight: 600;
+}
+
+/* Article Page Styles */
+.article-page {
+    max-width: 800px;
+}
+
+.article-header {
+    text-align: center;
+    margin-bottom: 3rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid rgba(52, 73, 94, 0.1);
+}
+
+.article-header h1 {
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 700;
+    color: #2c3e50;
+    margin-bottom: 1rem;
+    line-height: 1.2;
+}
+
+.article-subtitle {
+    font-size: 1.2rem;
+    color: #34495e;
+    font-weight: 400;
+    margin-top: 1rem;
+}
+
+.article-content {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: #2c3e50;
+}
+
+.article-content h2 {
+    font-size: 1.8rem;
+    color: #2c3e50;
+    margin: 2.5rem 0 1.5rem 0;
+    font-weight: 600;
+}
+
+.article-content h3 {
+    font-size: 1.4rem;
+    color: #2c3e50;
+    margin: 2rem 0 1rem 0;
+    font-weight: 600;
+}
+
+.article-content h4 {
+    font-size: 1.2rem;
+    color: #2c3e50;
+    margin: 1.5rem 0 0.8rem 0;
+    font-weight: 600;
+}
+
+.article-content ul, .article-content ol {
+    margin: 1rem 0 1rem 2rem;
+}
+
+.article-content li {
+    margin-bottom: 0.5rem;
+}
+
+.interactive-cta {
+    background: linear-gradient(135deg, rgba(52, 152, 219, 0.1), rgba(46, 204, 113, 0.1));
+    padding: 1.5rem;
+    border-radius: 15px;
+    margin: 2rem 0;
+    border-left: 4px solid #3498db;
+}
+
+.practice-box {
+    background: rgba(255, 255, 255, 0.9);
+    padding: 2rem;
+    border-radius: 15px;
+    margin: 2rem 0;
+    border: 2px solid #3498db;
+}
+
+.practice-box h4 {
+    color: #3498db;
+    margin-bottom: 1rem;
+}
+
+.song-examples {
+    background: rgba(52, 152, 219, 0.05);
+    padding: 1.5rem;
+    border-radius: 15px;
+    margin: 1.5rem 0;
+}
+
+.song-examples h4 {
+    color: #3498db;
+    margin-bottom: 1rem;
+}
+
+.key-examples {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin: 2rem 0;
+}
+
+.key-example {
+    background: rgba(255, 255, 255, 0.9);
+    padding: 1.5rem;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.key-example h4 {
+    color: #3498db;
+    margin-bottom: 0.5rem;
+}
+
+.transposition-table {
+    background: rgba(255, 255, 255, 0.9);
+    padding: 1.5rem;
+    border-radius: 15px;
+    margin: 2rem 0;
+}
+
+.faq-section {
+    margin-top: 3rem;
+}
+
+.faq-item {
+    background: rgba(255, 255, 255, 0.9);
+    padding: 1.5rem;
+    border-radius: 15px;
+    margin-bottom: 1.5rem;
+    border-left: 4px solid #3498db;
+}
+
+.faq-item h3 {
+    color: #2c3e50;
+    margin-bottom: 1rem;
+    font-size: 1.1rem;
+}
+
+.related-articles {
+    margin-top: 4rem;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(52, 73, 94, 0.1);
+}
+
+.related-articles h2 {
+    font-size: 1.8rem;
+    color: #2c3e50;
+    margin-bottom: 2rem;
+    font-weight: 600;
+    text-align: center;
+}
+
+.related-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+}
+
+.related-card {
+    padding: 1.5rem;
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 15px;
+    text-decoration: none;
+    color: inherit;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(52, 73, 94, 0.1);
+}
+
+.related-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.related-card h4 {
+    color: #2c3e50;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+}
+
+.related-card p {
+    color: #34495e;
+    font-size: 0.9rem;
+}
+
+/* Mobile Optimizations */
+@media (max-width: 768px) {
+    main {
+        padding: 2rem 1rem;
+    }
+    
+    .breadcrumb {
+        padding: 1rem;
+        font-size: 0.8rem;
+    }
+    
+    .chord-diagram-section {
+        padding: 1.5rem;
+    }
+    
+    .progression-theory, .chord-breakdown, .song-examples {
+        padding: 1.5rem;
+    }
+    
+    .chord-grid, .type-grid, .progression-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .chord-list {
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    }
+    
+    .song-list {
+        grid-template-columns: 1fr;
+    }
+    
+    .article-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+    
+    .category-grid, .related-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .key-examples {
+        grid-template-columns: 1fr;
+    }
+    
+    .practice-box, .interactive-cta {
+        padding: 1.5rem;
+    }
+}
