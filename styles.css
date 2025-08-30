@@ -30,6 +30,23 @@ a:hover {
     border-radius: 4px;
 }
 
+/* YouTube song links styling */
+.song-examples a[href*="youtube.com"],
+.song-list a[href*="youtube.com"] {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.song-examples a[href*="youtube.com"]::after,
+.song-list a[href*="youtube.com"]::after {
+    content: "▶";
+    font-size: 0.8em;
+    opacity: 0.7;
+    transition: all 0.3s ease;
+}
+
 /* Shared styles for content pages */
 * {
     margin: 0;

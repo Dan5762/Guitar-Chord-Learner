@@ -1,15 +1,569 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+    <!-- Homepage -->
     <url>
         <loc>https://learn-chords.com/</loc>
         <lastmod>2025-08-30</lastmod>
         <changefreq>monthly</changefreq>
         <priority>1.0</priority>
     </url>
+    
+    <!-- App -->
     <url>
         <loc>https://learn-chords.com/app/</loc>
         <lastmod>2025-08-30</lastmod>
         <changefreq>weekly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    
+    <!-- Learning Hub -->
+    <url>
+        <loc>https://learn-chords.com/learn/</loc>
+        <lastmod>2025-08-30</lastmod>
+        <changefreq>weekly</changefreq>
         <priority>0.8</priority>
     </url>
+    
+    <!-- Main Category Pages -->
+    <url>
+        <loc>https://learn-chords.com/chords/</loc>
+        <lastmod>2025-08-30</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    
+    <url>
+        <loc>https://learn-chords.com/progressions/</loc>
+        <lastmod>2025-08-30</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    
+    <url>
+        <loc>https://learn-chords.com/chord-types/</loc>
+        <lastmod>2025-08-30</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    
+    <!-- Chord Type Categories -->
+    <url>
+        <loc>https://learn-chords.com/chord-types/major/</loc>
+        <lastmod>2025-08-30</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    
+    <url>
+        <loc>https://learn-chords.com/chord-types/minor/</loc>
+        <lastmod>2025-08-30</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    
+    <url>
+        <loc>https://learn-chords.com/chord-types/major7/</loc>
+        <lastmod>2025-08-30</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    
+    <url>
+        <loc>https://learn-chords.com/chord-types/minor7/</loc>
+        <lastmod>2025-08-30</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    
+    <url>
+        <loc>https://learn-chords.com/chord-types/diminished7/</loc>
+        <lastmod>2025-08-30</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    
+    <!-- Articles -->
+    <url>
+        <loc>https://learn-chords.com/learn/articles/circle-of-fifths-explained/</loc>
+        <lastmod>2025-08-30</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    
+    <url>
+        <loc>https://learn-chords.com/learn/articles/understanding-ii-v-i/</loc>
+        <lastmod>2025-08-30</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    
+    <url>
+        <loc>https://learn-chords.com/learn/articles/common-pop-progressions/</loc>
+        <lastmod>2025-08-30</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    
+    <url>
+        <loc>https://learn-chords.com/learn/articles/borrowed-chords-modal-interchange/</loc>
+        <lastmod>2025-08-30</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    
+    <url>
+        <loc>https://learn-chords.com/learn/articles/jazz-chord-substitutions/</loc>
+        <lastmod>2025-08-30</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    
+    <url>
+        <loc>https://learn-chords.com/chords/a-major/</loc>
+        <lastmod>2025-08-30</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.5</priority>
+    </url>
+    
+    <url>
+        <loc>https://learn-chords.com/chords/am/</loc>
+        <lastmod>2025-08-30</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.5</priority>
+    </url>
+    
+    <url>
+        <loc>https://learn-chords.com/chords/a-sharp-major/</loc>
+        <lastmod>2025-08-30</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.5</priority>
+    </url>
+    
+    <url>
+        <loc>https://learn-chords.com/chords/a-sharpm/</loc>
+        <lastmod>2025-08-30</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.5</priority>
+    </url>
+    
+    <url>
+        <loc>https://learn-chords.com/chords/flat-major/</loc>
+        <lastmod>2025-08-30</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.5</priority>
+    </url>
+    
+    <url>
+        <loc>https://learn-chords.com/chords/flatm/</loc>
+        <lastmod>2025-08-30</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.5</priority>
+    </url>
+    
+    <url>
+        <loc>https://learn-chords.com/chords/c-major/</loc>
+        <lastmod>2025-08-30</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.5</priority>
+    </url>
+    
+    <url>
+        <loc>https://learn-chords.com/chords/cm/</loc>
+        <lastmod>2025-08-30</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.5</priority>
+    </url>
+    
+    <url>
+        <loc>https://learn-chords.com/chords/c-sharp-major/</loc>
+        <lastmod>2025-08-30</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.5</priority>
+    </url>
+    
+    <url>
+        <loc>https://learn-chords.com/chords/c-sharpm/</loc>
+        <lastmod>2025-08-30</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.5</priority>
+    </url>
+    
+    <url>
+        <loc>https://learn-chords.com/chords/d-major/</loc>
+        <lastmod>2025-08-30</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.5</priority>
+    </url>
+    
+    <url>
+        <loc>https://learn-chords.com/chords/dm/</loc>
+        <lastmod>2025-08-30</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.5</priority>
+    </url>
+    
+    <url>
+        <loc>https://learn-chords.com/chords/d-sharp-major/</loc>
+        <lastmod>2025-08-30</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.5</priority>
+    </url>
+    
+    <url>
+        <loc>https://learn-chords.com/chords/d-sharpm/</loc>
+        <lastmod>2025-08-30</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.5</priority>
+    </url>
+    
+    <url>
+        <loc>https://learn-chords.com/chords/e-major/</loc>
+        <lastmod>2025-08-30</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.5</priority>
+    </url>
+    
+    <url>
+        <loc>https://learn-chords.com/chords/em/</loc>
+        <lastmod>2025-08-30</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.5</priority>
+    </url>
+    
+    <url>
+        <loc>https://learn-chords.com/chords/f-major/</loc>
+        <lastmod>2025-08-30</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.5</priority>
+    </url>
+    
+    <url>
+        <loc>https://learn-chords.com/chords/fm/</loc>
+        <lastmod>2025-08-30</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.5</priority>
+    </url>
+    
+    <url>
+        <loc>https://learn-chords.com/chords/f-sharp-major/</loc>
+        <lastmod>2025-08-30</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.5</priority>
+    </url>
+    
+    <url>
+        <loc>https://learn-chords.com/chords/f-sharpm/</loc>
+        <lastmod>2025-08-30</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.5</priority>
+    </url>
+    
+    <url>
+        <loc>https://learn-chords.com/chords/g-major/</loc>
+        <lastmod>2025-08-30</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.5</priority>
+    </url>
+    
+    <url>
+        <loc>https://learn-chords.com/chords/gm/</loc>
+        <lastmod>2025-08-30</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.5</priority>
+    </url>
+    
+    <url>
+        <loc>https://learn-chords.com/chords/g-sharp-major/</loc>
+        <lastmod>2025-08-30</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.5</priority>
+    </url>
+    
+    <url>
+        <loc>https://learn-chords.com/chords/g-sharpm/</loc>
+        <lastmod>2025-08-30</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.5</priority>
+    </url>
+    
+    <url>
+        <loc>https://learn-chords.com/chords/a-major/</loc>
+        <lastmod>2025-08-30</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.5</priority>
+    </url>
+    
+    <url>
+        <loc>https://learn-chords.com/chords/flat-major/</loc>
+        <lastmod>2025-08-30</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.5</priority>
+    </url>
+    
+    <url>
+        <loc>https://learn-chords.com/chords/c-major/</loc>
+        <lastmod>2025-08-30</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.5</priority>
+    </url>
+    
+    <url>
+        <loc>https://learn-chords.com/chords/d-major/</loc>
+        <lastmod>2025-08-30</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.5</priority>
+    </url>
+    
+    <url>
+        <loc>https://learn-chords.com/chords/e-major/</loc>
+        <lastmod>2025-08-30</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.5</priority>
+    </url>
+    
+    <url>
+        <loc>https://learn-chords.com/chords/f-major/</loc>
+        <lastmod>2025-08-30</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.5</priority>
+    </url>
+    
+    <url>
+        <loc>https://learn-chords.com/chords/g-major/</loc>
+        <lastmod>2025-08-30</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.5</priority>
+    </url>
+    
+    <url>
+        <loc>https://learn-chords.com/chords/a-sharp-major/</loc>
+        <lastmod>2025-08-30</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.5</priority>
+    </url>
+    
+    <url>
+        <loc>https://learn-chords.com/chords/c-sharp-major/</loc>
+        <lastmod>2025-08-30</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.5</priority>
+    </url>
+    
+    <url>
+        <loc>https://learn-chords.com/chords/d-sharp-major/</loc>
+        <lastmod>2025-08-30</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.5</priority>
+    </url>
+    
+    <url>
+        <loc>https://learn-chords.com/chords/f-sharp-major/</loc>
+        <lastmod>2025-08-30</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.5</priority>
+    </url>
+    
+    <url>
+        <loc>https://learn-chords.com/chords/g-sharp-major/</loc>
+        <lastmod>2025-08-30</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.5</priority>
+    </url>
+    
+    <url>
+        <loc>https://learn-chords.com/chords/am7/</loc>
+        <lastmod>2025-08-30</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.5</priority>
+    </url>
+    
+    <url>
+        <loc>https://learn-chords.com/chords/flatm7/</loc>
+        <lastmod>2025-08-30</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.5</priority>
+    </url>
+    
+    <url>
+        <loc>https://learn-chords.com/chords/cm7/</loc>
+        <lastmod>2025-08-30</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.5</priority>
+    </url>
+    
+    <url>
+        <loc>https://learn-chords.com/chords/dm7/</loc>
+        <lastmod>2025-08-30</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.5</priority>
+    </url>
+    
+    <url>
+        <loc>https://learn-chords.com/chords/em7/</loc>
+        <lastmod>2025-08-30</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.5</priority>
+    </url>
+    
+    <url>
+        <loc>https://learn-chords.com/chords/fm7/</loc>
+        <lastmod>2025-08-30</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.5</priority>
+    </url>
+    
+    <url>
+        <loc>https://learn-chords.com/chords/gm7/</loc>
+        <lastmod>2025-08-30</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.5</priority>
+    </url>
+    
+    <url>
+        <loc>https://learn-chords.com/chords/a-sharpm7/</loc>
+        <lastmod>2025-08-30</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.5</priority>
+    </url>
+    
+    <url>
+        <loc>https://learn-chords.com/chords/c-sharpm7/</loc>
+        <lastmod>2025-08-30</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.5</priority>
+    </url>
+    
+    <url>
+        <loc>https://learn-chords.com/chords/d-sharpm7/</loc>
+        <lastmod>2025-08-30</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.5</priority>
+    </url>
+    
+    <url>
+        <loc>https://learn-chords.com/chords/f-sharpm7/</loc>
+        <lastmod>2025-08-30</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.5</priority>
+    </url>
+    
+    <url>
+        <loc>https://learn-chords.com/chords/g-sharpm7/</loc>
+        <lastmod>2025-08-30</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.5</priority>
+    </url>
+    
+    <url>
+        <loc>https://learn-chords.com/chords/a-diminished/</loc>
+        <lastmod>2025-08-30</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.5</priority>
+    </url>
+    
+    <url>
+        <loc>https://learn-chords.com/chords/flat-diminished/</loc>
+        <lastmod>2025-08-30</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.5</priority>
+    </url>
+    
+    <url>
+        <loc>https://learn-chords.com/chords/c-diminished/</loc>
+        <lastmod>2025-08-30</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.5</priority>
+    </url>
+    
+    <url>
+        <loc>https://learn-chords.com/chords/d-diminished/</loc>
+        <lastmod>2025-08-30</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.5</priority>
+    </url>
+    
+    <url>
+        <loc>https://learn-chords.com/chords/e-diminished/</loc>
+        <lastmod>2025-08-30</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.5</priority>
+    </url>
+    
+    <url>
+        <loc>https://learn-chords.com/chords/f-diminished/</loc>
+        <lastmod>2025-08-30</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.5</priority>
+    </url>
+    
+    <url>
+        <loc>https://learn-chords.com/chords/g-diminished/</loc>
+        <lastmod>2025-08-30</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.5</priority>
+    </url>
+    
+    <url>
+        <loc>https://learn-chords.com/chords/a-sharp-diminished/</loc>
+        <lastmod>2025-08-30</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.5</priority>
+    </url>
+    
+    <url>
+        <loc>https://learn-chords.com/chords/c-sharp-diminished/</loc>
+        <lastmod>2025-08-30</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.5</priority>
+    </url>
+    
+    <url>
+        <loc>https://learn-chords.com/chords/d-sharp-diminished/</loc>
+        <lastmod>2025-08-30</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.5</priority>
+    </url>
+    
+    <url>
+        <loc>https://learn-chords.com/chords/f-sharp-diminished/</loc>
+        <lastmod>2025-08-30</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.5</priority>
+    </url>
+    
+    <url>
+        <loc>https://learn-chords.com/chords/g-sharp-diminished/</loc>
+        <lastmod>2025-08-30</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.5</priority>
+    </url>
+    
+    <url>
+        <loc>https://learn-chords.com/progressions/ii-v-i/</loc>
+        <lastmod>2025-08-30</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    
+    <url>
+        <loc>https://learn-chords.com/progressions/vi-iv-i-v/</loc>
+        <lastmod>2025-08-30</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    
+    <url>
+        <loc>https://learn-chords.com/progressions/i-v-vi-iv/</loc>
+        <lastmod>2025-08-30</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    
+    <url>
+        <loc>https://learn-chords.com/progressions/i-vi-iv-v/</loc>
+        <lastmod>2025-08-30</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    
 </urlset>
