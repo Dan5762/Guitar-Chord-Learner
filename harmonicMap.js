@@ -30,8 +30,8 @@ class HarmonicMap {
     const containerRect = container.getBoundingClientRect();
     
     // Calculate canvas size to fit container with some padding
-    const availableWidth = containerRect.width - 80; // Account for container padding
-    const availableHeight = containerRect.height - 80;
+    const availableWidth = containerRect.width - 40; // Account for container padding
+    const availableHeight = containerRect.height - 40;
     
     // Make canvas square using the smaller dimension
     const canvasSize = Math.min(availableWidth, availableHeight, 600);
@@ -45,51 +45,338 @@ class HarmonicMap {
     this.centerX = canvasSize / 2;
     this.centerY = canvasSize / 2;
     
+    // Adjust radius for mobile screens to ensure chords fit
+    const isMobile = canvasSize < 400;
+    this.radius = isMobile ? Math.min(canvasSize * 0.42, 160) : 200;
+    
     // Initial render
     this.render();
   }
 
-  // Calculate harmonically related chords for a given center chord
-  calculateSurroundingChords(centerChord) {
+  // Generate context-aware chord layout based on chord type
+  generateCircleOfFifths(centerChord) {
     if (!centerChord) return [];
     
-    const related = [];
+    const chordType = centerChord.type;
+    
+    if (chordType === 'major7') {
+      return this.generateMajorKeyContext(centerChord);
+    } else if (chordType === 'minor7') {
+      return this.generateMinorKeyContext(centerChord);
+    } else if (chordType === 'diminished7') {
+      return this.generateDiminishedContext(centerChord);
+    } else {
+      // For basic major/minor chords, use simple circle of fifths
+      return this.generateSimpleCircleOfFifths(centerChord);
+    }
+  }
+  
+  // Single context for Major/Maj7 chords - stable tonic center
+  generateMajorKeyContext(centerChord) {
+    const circleChords = [];
     const centerRoot = centerChord.notes[0];
     const centerType = centerChord.type;
     
-    // Circle of Fifths relationships
-    const fifthsUp = this.getChordByInterval(centerRoot, 7, centerType); // Perfect 5th up
-    const fifthsDown = this.getChordByInterval(centerRoot, 5, centerType); // Perfect 4th up (5th down)
+    // Build diatonic chords in the major key
+    const scalePattern = [
+      { interval: 0, type: centerType, numeral: 'I' },    // Use original chord type for tonic
+      { interval: 2, type: 'minor7', numeral: 'ii' },     // Supertonic
+      { interval: 4, type: 'minor7', numeral: 'iii' },    // Mediant
+      { interval: 5, type: centerType === 'major' ? 'major' : 'major7', numeral: 'IV' }, // Match tonic type
+      { interval: 7, type: 'major', numeral: 'V' },       // Dominant
+      { interval: 9, type: 'minor7', numeral: 'vi' },     // Submediant
+      { interval: 11, type: 'minor7', numeral: 'vii°' }   // Leading tone
+    ];
     
-    // Relative major/minor
-    const relative = this.getRelativeChord(centerChord);
+    scalePattern.forEach((item, index) => {
+      let chordRoot;
+      if (index === 0) {
+        // For tonic, use the exact center chord
+        chordRoot = centerChord;
+      } else {
+        // For other chords, find by interval and type
+        chordRoot = this.getChordByInterval(centerRoot, item.interval, item.type);
+      }
+      
+      if (chordRoot) {
+        circleChords.push({
+          chord: chordRoot,
+          relationship: item.numeral,
+          strength: index === 0 ? 12 : 10 - Math.abs(index - 3), // Strongest around IV-I-V
+          position: index,
+          context: 'major-key'
+        });
+      }
+    });
     
-    // Parallel major/minor
-    const parallel = this.getParallelChord(centerChord);
+    return circleChords;
+  }
+  
+  // Dual context for Minor/Min7 chords
+  generateMinorKeyContext(centerChord) {
+    if (this.currentContext === 'relative') {
+      return this.generateMinorAsRelative(centerChord);
+    } else {
+      return this.generateMinorAsTonic(centerChord);
+    }
+  }
+  
+  // Minor chord as relative minor (vi of major key)
+  generateMinorAsRelative(centerChord) {
+    const circleChords = [];
+    const centerRoot = centerChord.notes[0];
     
-    // Mediant relationships (3rd up/down)
-    const mediantUp = this.getChordByInterval(centerRoot, 4, centerType); // Major 3rd up
-    const mediantDown = this.getChordByInterval(centerRoot, 9, centerType); // Minor 3rd down (major 6th up)
+    // Find the relative major (3 semitones up)
+    const relativeMajorRoot = this.getChordByInterval(centerRoot, 3, 'major');
+    if (!relativeMajorRoot) return this.generateMinorAsTonic(centerChord);
     
-    // Secondary dominants (for more advanced harmony)
-    const dominant = this.getChordByInterval(centerRoot, 7, 'major7'); // V7 of center
-    const subdominant = this.getChordByInterval(centerRoot, 5, 'major7'); // IV7 of center
+    const relativeMajorRootNote = relativeMajorRoot.notes[0];
     
-    // Add chords in order of harmonic strength
-    if (fifthsUp) related.push({ chord: fifthsUp, relationship: 'dominant', strength: 10 });
-    if (fifthsDown) related.push({ chord: fifthsDown, relationship: 'subdominant', strength: 9 });
-    if (relative) related.push({ chord: relative, relationship: 'relative', strength: 8 });
-    if (parallel) related.push({ chord: parallel, relationship: 'parallel', strength: 7 });
-    if (mediantUp) related.push({ chord: mediantUp, relationship: 'mediant', strength: 6 });
-    if (mediantDown) related.push({ chord: mediantDown, relationship: 'submediant', strength: 6 });
-    if (dominant) related.push({ chord: dominant, relationship: 'secondary_dominant', strength: 5 });
-    if (subdominant) related.push({ chord: subdominant, relationship: 'secondary_subdominant', strength: 4 });
+    // Build diatonic chords in the relative major key
+    const scalePattern = [
+      { interval: 0, type: 'major7', numeral: 'I' },      // Relative major
+      { interval: 2, type: 'minor7', numeral: 'ii' },     
+      { interval: 4, type: 'minor7', numeral: 'iii' },    
+      { interval: 5, type: 'major7', numeral: 'IV' },     
+      { interval: 7, type: 'major', numeral: 'V' },       
+      { interval: 9, type: 'minor7', numeral: 'vi' },     // Our center chord
+      { interval: 11, type: 'minor7', numeral: 'vii°' }   
+    ];
     
-    // Return top 6 most harmonically related chords
-    return related
-      .filter(item => item.chord && item.chord !== centerChord)
-      .sort((a, b) => b.strength - a.strength)
-      .slice(0, 6);
+    scalePattern.forEach((item, index) => {
+      const chordRoot = this.getChordByInterval(relativeMajorRootNote, item.interval, item.type);
+      if (chordRoot) {
+        const isCenter = chordRoot.name === centerChord.name;
+        circleChords.push({
+          chord: chordRoot,
+          relationship: item.numeral,
+          strength: isCenter ? 12 : 10 - Math.abs(index - 5), // Center around vi
+          position: index,
+          context: 'relative-major'
+        });
+      }
+    });
+    
+    return circleChords;
+  }
+  
+  generateMinorAsTonic(centerChord) {
+    const circleChords = [];
+    const centerRoot = centerChord.notes[0];
+    const centerType = centerChord.type;
+    
+    // Natural minor scale harmony
+    const scalePattern = [
+      { interval: 0, type: centerType, numeral: 'i' },    // Use original chord type for tonic
+      { interval: 2, type: 'minor7', numeral: 'ii°' },    // Supertonic
+      { interval: 3, type: 'major7', numeral: '♭III' },   // Mediant
+      { interval: 5, type: centerType === 'minor' ? 'minor' : 'minor7', numeral: 'iv' }, // Match tonic type
+      { interval: 7, type: 'minor', numeral: 'v' },       // Dominant
+      { interval: 8, type: 'major7', numeral: '♭VI' },    // Submediant
+      { interval: 10, type: 'major', numeral: '♭VII' }    // Subtonic
+    ];
+    
+    scalePattern.forEach((item, index) => {
+      let chordRoot;
+      if (index === 0) {
+        // For tonic, use the exact center chord
+        chordRoot = centerChord;
+      } else {
+        // For other chords, find by interval and type
+        chordRoot = this.getChordByInterval(centerRoot, item.interval, item.type);
+      }
+      
+      if (chordRoot) {
+        circleChords.push({
+          chord: chordRoot,
+          relationship: item.numeral,
+          strength: index === 0 ? 12 : 10 - Math.abs(index - 3),
+          position: index,
+          context: 'minor-key'
+        });
+      }
+    });
+    
+    return circleChords;
+  }
+  
+  // Quad context for Dim7 chords - shows all four possible resolutions
+  generateDiminishedContext(centerChord) {
+    const circleChords = [];
+    const centerRoot = centerChord.notes[0];
+    
+    // Diminished 7th chords resolve to four different keys
+    // Each resolution is a minor 2nd up from each chord tone
+    const resolutions = [
+      { interval: 1, numeral: 'vii°7/I' },   // Leading tone to major
+      { interval: 4, numeral: 'vii°7/♭III' }, // Resolution to relative major  
+      { interval: 7, numeral: 'vii°7/V' },   // Leading to dominant
+      { interval: 10, numeral: 'vii°7/♭VII' } // Leading to subtonic
+    ];
+    
+    // Add the center diminished chord
+    circleChords.push({
+      chord: centerChord,
+      relationship: 'vii°7',
+      strength: 12,
+      position: 0,
+      context: 'diminished'
+    });
+    
+    // Add resolution targets and their related chords
+    resolutions.forEach((res, index) => {
+      const targetChord = this.getChordByInterval(centerRoot, res.interval, 'major');
+      if (targetChord) {
+        circleChords.push({
+          chord: targetChord,
+          relationship: res.numeral,
+          strength: 10,
+          position: (index * 3) + 1, // Spread around circle
+          context: 'diminished'
+        });
+        
+        // Add some related chords for each resolution
+        const relatedV = this.getChordByInterval(targetChord.notes[0], 7, 'major');
+        const relatediv = this.getChordByInterval(targetChord.notes[0], 5, 'minor7');
+        
+        if (relatedV) {
+          circleChords.push({
+            chord: relatedV,
+            relationship: 'V/' + res.numeral.split('/')[1],
+            strength: 8,
+            position: (index * 3) + 2,
+            context: 'diminished'
+          });
+        }
+        
+        if (relatediv) {
+          circleChords.push({
+            chord: relatediv,
+            relationship: 'iv/' + res.numeral.split('/')[1],
+            strength: 6,
+            position: (index * 3) + 3,
+            context: 'diminished'
+          });
+        }
+      }
+    });
+    
+    return circleChords.slice(0, 12);
+  }
+  
+  // Simple circle of fifths for basic major/minor chords
+  generateSimpleCircleOfFifths(centerChord) {
+    const circleChords = [];
+    const centerRoot = centerChord.notes[0];
+    const centerType = centerChord.type;
+    
+    // Add center chord
+    circleChords.push({ 
+      chord: centerChord, 
+      relationship: 'I', 
+      strength: 12, 
+      position: 0,
+      context: 'circle-of-fifths'
+    });
+    
+    // Generate circle of fifths going clockwise (up by perfect fifths)
+    let currentRoot = centerRoot;
+    for (let i = 1; i < 12; i++) {
+      // Get the root note that is a perfect fifth up
+      const noteNames = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
+      const currentIndex = noteNames.indexOf(currentRoot);
+      const nextIndex = (currentIndex + 7) % 12; // Perfect fifth = 7 semitones
+      const nextRoot = noteNames[nextIndex];
+      
+      // Find a chord with this root note, preferring the same type as center chord
+      let nextChord = this.getChordByRoot(nextRoot, centerType);
+      if (!nextChord) {
+        // Fallback to major if exact type not found
+        nextChord = this.getChordByRoot(nextRoot, 'major');
+      }
+      
+      if (nextChord) {
+        // Calculate Roman numeral based on interval from center
+        const interval = (nextIndex - noteNames.indexOf(centerRoot) + 12) % 12;
+        const romanNumeral = this.getSimpleRomanNumeral(interval, nextChord.type);
+        
+        circleChords.push({ 
+          chord: nextChord, 
+          relationship: romanNumeral, 
+          strength: 11 - Math.min(i, 12 - i), // Strength decreases with distance
+          position: i,
+          context: 'circle-of-fifths'
+        });
+        currentRoot = nextRoot;
+      }
+    }
+    
+    return circleChords.slice(0, 12);
+  }
+  
+  // Simple Roman numeral mapping for circle of fifths
+  getSimpleRomanNumeral(interval, chordType) {
+    const romanMap = {
+      0: 'I', 1: '♭II', 2: 'II', 3: '♭III', 4: 'III', 5: 'IV',
+      6: '♭V', 7: 'V', 8: '♭VI', 9: 'VI', 10: '♭VII', 11: 'VII'
+    };
+    
+    let numeral = romanMap[interval] || '';
+    
+    // Use lowercase for minor chords
+    if (chordType === 'minor' || chordType === 'minor7') {
+      numeral = numeral.toLowerCase();
+    }
+    
+    return numeral;
+  }
+  
+  // Get chord by root note and type
+  getChordByRoot(rootNote, chordType) {
+    return CHORD_LIBRARY.find(c => 
+      c.notes[0] === rootNote && c.type === chordType
+    );
+  }
+  
+  // Get Roman numeral for chord position in circle of fifths
+  getRomanNumeral(position, chordType) {
+    // Map circle of fifths positions to scale degrees
+    const romanNumerals = {
+      1: { major: 'V', minor: 'v' },      // Dominant
+      2: { major: 'II', minor: 'ii' },    // Supertonic  
+      3: { major: 'VI', minor: 'vi' },    // Submediant
+      4: { major: 'III', minor: 'iii' },  // Mediant
+      5: { major: 'VII', minor: 'vii°' }, // Leading tone
+      6: { major: 'IV♯', minor: 'iv♯' },  // Tritone substitute
+      7: { major: 'I♯', minor: 'i♯' },    // Augmented tonic
+      8: { major: 'V♯', minor: 'v♯' },    // Augmented dominant
+      9: { major: 'II♯', minor: 'ii♯' },  // Augmented supertonic
+      10: { major: 'VI♯', minor: 'vi♯' }, // Augmented submediant
+      11: { major: 'IV', minor: 'iv' }    // Subdominant
+    };
+    
+    const numeralMap = romanNumerals[position];
+    if (!numeralMap) return '';
+    
+    // Return appropriate numeral based on chord type
+    if (chordType === 'minor' || chordType === 'minor7') {
+      return numeralMap.minor;
+    } else if (chordType === 'diminished7') {
+      return numeralMap.minor + '°';
+    } else {
+      return numeralMap.major;
+    }
+  }
+  
+  // Calculate harmonically related chords for spider web view (old method kept for compatibility)
+  calculateSurroundingChords(centerChord) {
+    // Now using circle of fifths
+    const circleChords = this.generateCircleOfFifths(centerChord);
+    
+    // Return the most related chords (excluding the center)
+    return circleChords
+      .filter(item => item.chord !== centerChord)
+      .slice(0, 11); // Return 11 chords (full circle minus center)
   }
 
   // Helper methods for chord relationships
@@ -144,31 +431,49 @@ class HarmonicMap {
     if (!chord) return;
     
     this.currentChord = chord;
+    this.currentContext = 'tonic'; // Default context
     this.surroundingChords = this.calculateSurroundingChords(chord);
     this.calculateChordPositions();
     this.render();
     
     // Update the current chord display
     this.updateCurrentChordDisplay(chord);
+    
+    // Show/hide context selector based on chord type
+    this.updateContextSelector(chord);
+  }
+  
+  // Show context selector for chords with multiple contexts
+  updateContextSelector(chord) {
+    const contextSelect = document.getElementById('context-select');
+    if (!contextSelect) return;
+    
+    if (chord.type === 'minor' || chord.type === 'minor7') {
+      // Show context selector for minor chords
+      contextSelect.style.display = 'block';
+      contextSelect.value = this.currentContext || 'tonic';
+    } else if (chord.type === 'diminished7') {
+      // TODO: Show quad context selector for diminished chords
+      contextSelect.style.display = 'none';
+    } else {
+      // Hide for major chords (single context)
+      contextSelect.style.display = 'none';
+    }
   }
 
-  // Calculate positions for surrounding chords in a circle
+  // Calculate positions for circle of fifths
   calculateChordPositions() {
     this.chordPositions.clear();
     
-    // Center chord position
-    if (this.currentChord) {
-      this.chordPositions.set(this.currentChord.name, {
-        x: this.centerX,
-        y: this.centerY,
-        chord: this.currentChord,
-        isCenter: true
-      });
-    }
+    if (!this.currentChord) return;
     
-    // Surrounding chord positions
-    this.surroundingChords.forEach((item, index) => {
-      const angle = (index * 2 * Math.PI) / this.surroundingChords.length - Math.PI / 2; // Start at top
+    // Generate circle of fifths
+    const circleChords = this.generateCircleOfFifths(this.currentChord);
+    
+    // Position chords in a circle
+    circleChords.forEach((item, index) => {
+      // Start at top (12 o'clock) and go clockwise
+      const angle = (index * 2 * Math.PI) / 12 - Math.PI / 2;
       const x = this.centerX + Math.cos(angle) * this.radius;
       const y = this.centerY + Math.sin(angle) * this.radius;
       
@@ -178,16 +483,16 @@ class HarmonicMap {
         chord: item.chord,
         relationship: item.relationship,
         strength: item.strength,
-        isCenter: false
+        isCenter: index === 0,
+        position: index
       });
     });
   }
 
   // Render the harmonic map
   render() {
-    // Clear canvas
-    this.ctx.fillStyle = 'rgba(255, 255, 255, 1)';
-    this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+    // Clear canvas with transparent background
+    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     
     // Draw instruction text if no chord is selected
     if (!this.currentChord) {
@@ -209,63 +514,88 @@ class HarmonicMap {
   drawConnections() {
     if (!this.currentChord) return;
     
-    const centerPos = this.chordPositions.get(this.currentChord.name);
-    
-    this.surroundingChords.forEach(item => {
-      const pos = this.chordPositions.get(item.chord.name);
-      if (!pos) return;
-      
-      // Line style based on relationship strength
-      this.ctx.strokeStyle = this.getRelationshipColor(item.relationship);
-      this.ctx.lineWidth = Math.max(1, item.strength / 2);
-      this.ctx.globalAlpha = 0.6;
-      
-      this.ctx.beginPath();
-      this.ctx.moveTo(centerPos.x, centerPos.y);
-      this.ctx.lineTo(pos.x, pos.y);
-      this.ctx.stroke();
-    });
-    
-    this.ctx.globalAlpha = 1;
+    // Draw subtle circle outline to show the circle of fifths path
+    this.ctx.strokeStyle = 'rgba(52, 152, 219, 0.1)';
+    this.ctx.lineWidth = 1;
+    this.ctx.setLineDash([5, 10]);
+    this.ctx.beginPath();
+    this.ctx.arc(this.centerX, this.centerY, this.radius, 0, Math.PI * 2);
+    this.ctx.stroke();
+    this.ctx.setLineDash([]);
   }
 
   drawChords() {
     this.chordPositions.forEach((pos, chordName) => {
       const isHovered = this.hoveredChord === chordName;
       const isCenter = pos.isCenter;
+      const position = pos.position || 0;
+      const context = pos.context || 'circle-of-fifths';
+      
+      // Mobile-responsive sizing
+      const isMobile = this.canvas.width < 400;
+      const baseRadius = isMobile ? 22 : 30;
+      const centerRadius = isMobile ? 28 : 40;
+      const hoveredRadius = isMobile ? 25 : 35;
       
       // Chord circle
       this.ctx.beginPath();
-      const radius = isCenter ? 50 : (isHovered ? 35 : 30);
+      const radius = isCenter ? centerRadius : (isHovered ? hoveredRadius : baseRadius);
       this.ctx.arc(pos.x, pos.y, radius, 0, Math.PI * 2);
       
-      // Fill based on chord type and state
+      // Context-aware styling
       if (isCenter) {
-        this.ctx.fillStyle = '#2c3e50';
+        // Selected chord - style based on context
+        const gradient = this.ctx.createRadialGradient(pos.x, pos.y, 0, pos.x, pos.y, radius);
+        if (context === 'major-key') {
+          gradient.addColorStop(0, '#f39c12'); // Warm golden
+          gradient.addColorStop(1, '#e67e22');
+        } else if (context === 'minor-key') {
+          gradient.addColorStop(0, '#9b59b6'); // Cool purple
+          gradient.addColorStop(1, '#8e44ad');
+        } else {
+          gradient.addColorStop(0, '#3498db'); // Default blue
+          gradient.addColorStop(1, '#2980b9');
+        }
+        this.ctx.fillStyle = gradient;
       } else if (isHovered) {
         this.ctx.fillStyle = '#3498db';
       } else {
-        this.ctx.fillStyle = this.getChordTypeColor(pos.chord.type);
+        // Color based on harmonic function
+        if (context === 'major-key') {
+          // Warm colors for major key context
+          const strength = pos.strength / 12;
+          this.ctx.fillStyle = `rgba(243, 156, 18, ${strength * 0.8 + 0.2})`;
+        } else if (context === 'minor-key') {
+          // Cool colors for minor key context
+          const strength = pos.strength / 12;
+          this.ctx.fillStyle = `rgba(155, 89, 182, ${strength * 0.8 + 0.2})`;
+        } else {
+          // Default blue tones
+          const strength = pos.strength / 12;
+          this.ctx.fillStyle = `rgba(52, 152, 219, ${strength * 0.8 + 0.2})`;
+        }
       }
       this.ctx.fill();
       
       // Border
-      this.ctx.strokeStyle = isCenter ? '#ffffff' : '#34495e';
-      this.ctx.lineWidth = isCenter ? 4 : 2;
+      this.ctx.strokeStyle = isCenter ? '#ffffff' : 'rgba(52, 73, 94, 0.5)';
+      this.ctx.lineWidth = isCenter ? 3 : 2;
       this.ctx.stroke();
       
-      // Chord name
-      this.ctx.fillStyle = isCenter || isHovered ? '#ffffff' : '#2c3e50';
-      this.ctx.font = `bold ${isCenter ? '18px' : '14px'} sans-serif`;
+      // Chord name with mobile-responsive font sizing
+      this.ctx.fillStyle = isCenter || pos.strength > 8 ? '#ffffff' : '#2c3e50';
+      const fontSize = isMobile ? (isCenter ? 12 : 10) : (isCenter ? 16 : 14);
+      this.ctx.font = `bold ${fontSize}px sans-serif`;
       this.ctx.textAlign = 'center';
       this.ctx.textBaseline = 'middle';
       this.ctx.fillText(chordName, pos.x, pos.y);
       
-      // Relationship label for surrounding chords
+      // Show Roman numeral analysis from relationship (smaller on mobile)
       if (!isCenter && pos.relationship) {
-        this.ctx.fillStyle = 'rgba(44, 62, 80, 0.7)';
-        this.ctx.font = '10px sans-serif';
-        this.ctx.fillText(pos.relationship.replace('_', ' '), pos.x, pos.y + radius + 15);
+        this.ctx.fillStyle = 'rgba(44, 62, 80, 0.8)';
+        const romanFontSize = isMobile ? 8 : 11;
+        this.ctx.font = `bold ${romanFontSize}px sans-serif`;
+        this.ctx.fillText(pos.relationship, pos.x, pos.y + radius + (isMobile ? 10 : 14));
       }
     });
   }
@@ -459,12 +789,47 @@ class HarmonicMap {
   }
 
   // Navigation
-  navigateToChord(chordName) {
-    this.setCurrentChord(chordName);
+  navigateToChord(chordName, fromHistory = false) {
+    const isCurrentChord = this.currentChord && this.currentChord.name === chordName;
     
-    // Trigger audio feedback
+    // Always play the chord sound
     if (window.playChord) {
       window.playChord(chordName);
+    }
+    
+    // If clicking the same chord, don't update the map or history
+    if (isCurrentChord) {
+      return;
+    }
+    
+    this.setCurrentChord(chordName);
+    
+    // Update chord history only if not navigating from history
+    if (!fromHistory && window.updateChordHistory) {
+      window.updateChordHistory(chordName);
+    } else if (fromHistory) {
+      // If navigating from history, just refresh the display to update current chord styling
+      if (window.updateChordHistory) {
+        const container = document.getElementById('chord-history');
+        if (container) {
+          const items = container.querySelectorAll('.chord-history-item');
+          items.forEach((item) => {
+            const position = parseInt(item.dataset.position);
+            if (position < window.chordHistory.length) {
+              const chord = window.chordHistory[position];
+              const isCurrentChord = window.harmonicMap && 
+                                   window.harmonicMap.currentChord && 
+                                   window.harmonicMap.currentChord.name === chord;
+              
+              if (isCurrentChord) {
+                item.classList.add('current-chord');
+              } else {
+                item.classList.remove('current-chord');
+              }
+            }
+          });
+        }
+      }
     }
   }
 

@@ -6,50 +6,97 @@
     <title>Guitar Chord Progression Learner</title>
     <link rel="stylesheet" href="styles.css">
 </head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-LMVJLQ39V2"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-LMVJLQ39V2');
+</script>
 <body>
     <div id="app">
-        <main>
-            <section id="chord-library" class="panel">
-                <h2>Chord Library</h2>
-                <div id="chord-type-selector">
-                    <div class="type-row">
-                        <button class="type-btn active" data-type="major">Major</button>
-                        <button class="type-btn" data-type="minor">Minor</button>
-                    </div>
-                    <div class="type-row">
-                        <button class="type-btn" data-type="major7">Maj7</button>
-                        <button class="type-btn" data-type="minor7">Min7</button>
-                        <button class="type-btn" data-type="diminished7">Dim7</button>
-                    </div>
+        <!-- Main harmonic map area -->
+        <main id="harmonic-main" class="panel">
+            <div id="selector-row">
+                <div class="selector-group">
+                    <select id="view-select">
+                        <option value="" disabled selected>Select harmonic view</option>
+                        <option value="circle-of-fifths">Circle of Fifths</option>
+                        <option value="coming-soon-1" disabled>Nashville Numbers (coming soon)</option>
+                        <option value="coming-soon-2" disabled>Chord Functions (coming soon)</option>
+                        <option value="coming-soon-3" disabled>Voice Leading (coming soon)</option>
+                    </select>
                 </div>
-                <div id="chord-cards-container">
-                    <!-- Draggable chord cards will be generated here -->
+                <div class="selector-group">
+                    <select id="context-select" style="display: none;">
+                        <option value="" disabled selected>Select context</option>
+                        <option value="tonic">As Tonic (i)</option>
+                        <option value="relative">As Relative (vi)</option>
+                    </select>
                 </div>
-            </section>
-            
-            <section id="harmonic-navigator" class="panel">
-                <div id="harmonic-content">
-                    <div id="harmonic-map-container">
-                        <canvas id="harmonic-map" width="600" height="600"></canvas>
-                    </div>
-                    
-                    <div id="chord-displays-column">
-                        <div id="current-chord-display">
-                            <h3>Selected Chord</h3>
-                            <div id="current-chord-name">Select a chord</div>
-                            <div class="fretboard-container" id="current-fretboard"></div>
-                        </div>
-                        
-                        <div id="next-chord-display">
-                            <h3>Next Chord Preview</h3>
-                            <div id="next-chord-name">Hover to preview</div>
-                            <div class="fretboard-container" id="next-fretboard"></div>
-                        </div>
-                    </div>
-                </div>
-            </section>
+            </div>
+            <div id="harmonic-map-container">
+                <canvas id="harmonic-map" width="600" height="600"></canvas>
+            </div>
+            <div id="chord-history" class="chord-history-container">
+                <div class="chord-history-item empty desktop-only" data-position="4">-</div>
+                <div class="chord-history-item empty desktop-only" data-position="3">-</div>
+                <div class="chord-history-item empty" data-position="2">-</div>
+                <div class="chord-history-item empty" data-position="1">-</div>
+                <div class="chord-history-item empty" data-position="0">-</div>
+            </div>
         </main>
+
+        <!-- Tab selector at bottom -->
+        <nav id="tab-selector">
+            <button class="tab-btn" data-tab="chord-library">
+                <span class="tab-icon">🎵</span>
+                <span class="tab-label">Chords</span>
+            </button>
+            <button class="tab-btn active" data-tab="harmonic-view">
+                <span class="tab-icon">⭕</span>
+                <span class="tab-label">Harmonic</span>
+            </button>
+            <button class="tab-btn" data-tab="chord-diagrams">
+                <span class="tab-icon">🎸</span>
+                <span class="tab-label">Diagram</span>
+            </button>
+        </nav>
+
+        <!-- Tab content panels -->
+        <section id="chord-library" class="tab-panel panel">
+            <div id="chord-type-selector">
+                <div class="type-row">
+                    <button class="type-btn active" data-type="major">Major</button>
+                    <button class="type-btn" data-type="minor">Minor</button>
+                </div>
+                <div class="type-row">
+                    <button class="type-btn" data-type="major7">Maj7</button>
+                    <button class="type-btn" data-type="minor7">Min7</button>
+                    <button class="type-btn" data-type="diminished7">Dim7</button>
+                </div>
+            </div>
+            <div id="chord-cards-container">
+                <!-- Draggable chord cards will be generated here -->
+            </div>
+        </section>
         
+        <section id="chord-diagrams" class="tab-panel panel">
+            <div id="chord-displays-column">
+                <div id="current-chord-display">
+                    <h3>Selected Chord</h3>
+                    <div id="current-chord-name">Select a chord</div>
+                    <div class="fretboard-container" id="current-fretboard"></div>
+                </div>
+                
+                <div id="next-chord-display">
+                    <h3>Next Chord Preview</h3>
+                    <div id="next-chord-name">Hover to preview</div>
+                    <div class="fretboard-container" id="next-fretboard"></div>
+                </div>
+            </div>
+        </section>
     </div>
     
     <script src="chordData.js"></script>

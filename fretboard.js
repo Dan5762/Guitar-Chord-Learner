@@ -141,23 +141,43 @@ class Fretboard {
     }
     
     this.currentChord = chordData;
+    
+    // Find the minimum fret position (excluding open and muted strings)
+    const fretPattern = chordData.fretPattern;
+    let minFret = Infinity;
+    let maxFret = 0;
+    
+    for (let i = 0; i < fretPattern.strings.length; i++) {
+      const fret = fretPattern.strings[i];
+      if (fret > 0) {
+        minFret = Math.min(minFret, fret);
+        maxFret = Math.max(maxFret, fret);
+      }
+    }
+    
+    // Determine if we need to show a position marker
+    const showPositionMarker = minFret > 2 || maxFret > 5;
+    const fretOffset = showPositionMarker ? minFret - 1 : 0;
+    
     this.drawFretboard();
     
     const startX = this.isMini ? 20 : 40;
     const startY = this.isMini ? 30 : 60;
-    const fretPattern = chordData.fretPattern;
     
-    // Add chord name at bottom
-    const chordName = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-    chordName.setAttribute('x', this.width / 2);
-    chordName.setAttribute('y', this.height - (this.isMini ? 5 : 10));
-    chordName.setAttribute('fill', '#2c3e50');
-    chordName.setAttribute('font-family', 'Arial, sans-serif');
-    chordName.setAttribute('font-size', this.isMini ? '10' : '16');
-    chordName.setAttribute('font-weight', 'bold');
-    chordName.setAttribute('text-anchor', 'middle');
-    chordName.textContent = chordData.name;
-    this.svg.appendChild(chordName);
+    // Add fret position marker if needed
+    if (showPositionMarker && minFret !== Infinity) {
+      const markerText = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+      markerText.setAttribute('x', this.width - (this.isMini ? 10 : 15));
+      markerText.setAttribute('y', startY + this.fretSpacing * 0.5);
+      markerText.setAttribute('fill', '#7f8c8d');
+      markerText.setAttribute('font-family', 'Arial, sans-serif');
+      markerText.setAttribute('font-size', this.isMini ? '10' : '14');
+      markerText.setAttribute('font-weight', 'bold');
+      markerText.setAttribute('text-anchor', 'middle');
+      markerText.textContent = minFret;
+      this.svg.appendChild(markerText);
+    }
+    
     
     // Draw finger positions and string markers
     for (let string = 0; string < this.strings; string++) {
@@ -199,30 +219,36 @@ class Fretboard {
         this.svg.appendChild(openCircle);
       } else {
         // Finger position - draw filled circle with finger number
-        const y = startY + (fret - 0.5) * this.fretSpacing;
+        // Adjust fret position if we're showing a position marker
+        const adjustedFret = showPositionMarker ? fret - fretOffset : fret;
         
-        // Draw finger dot
-        const fingerDot = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
-        fingerDot.setAttribute('cx', x);
-        fingerDot.setAttribute('cy', y);
-        fingerDot.setAttribute('r', this.isMini ? 6 : 12);
-        fingerDot.setAttribute('fill', '#34495e');
-        fingerDot.setAttribute('stroke', '#ffffff');
-        fingerDot.setAttribute('stroke-width', this.isMini ? '1' : '2');
-        this.svg.appendChild(fingerDot);
-        
-        // Add finger number (if not 0)
-        if (finger > 0) {
-          const fingerNumber = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-          fingerNumber.setAttribute('x', x);
-          fingerNumber.setAttribute('y', y + (this.isMini ? 2 : 5));
-          fingerNumber.setAttribute('fill', 'white');
-          fingerNumber.setAttribute('font-family', 'Arial, sans-serif');
-          fingerNumber.setAttribute('font-size', this.isMini ? '8' : '14');
-          fingerNumber.setAttribute('font-weight', 'bold');
-          fingerNumber.setAttribute('text-anchor', 'middle');
-          fingerNumber.textContent = finger;
-          this.svg.appendChild(fingerNumber);
+        // Only draw if the adjusted fret is within visible range
+        if (adjustedFret >= 1 && adjustedFret <= this.frets) {
+          const y = startY + (adjustedFret - 0.5) * this.fretSpacing;
+          
+          // Draw finger dot
+          const fingerDot = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+          fingerDot.setAttribute('cx', x);
+          fingerDot.setAttribute('cy', y);
+          fingerDot.setAttribute('r', this.isMini ? 6 : 12);
+          fingerDot.setAttribute('fill', '#34495e');
+          fingerDot.setAttribute('stroke', '#ffffff');
+          fingerDot.setAttribute('stroke-width', this.isMini ? '1' : '2');
+          this.svg.appendChild(fingerDot);
+          
+          // Add finger number (if not 0)
+          if (finger > 0) {
+            const fingerNumber = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+            fingerNumber.setAttribute('x', x);
+            fingerNumber.setAttribute('y', y + (this.isMini ? 2 : 5));
+            fingerNumber.setAttribute('fill', 'white');
+            fingerNumber.setAttribute('font-family', 'Arial, sans-serif');
+            fingerNumber.setAttribute('font-size', this.isMini ? '8' : '14');
+            fingerNumber.setAttribute('font-weight', 'bold');
+            fingerNumber.setAttribute('text-anchor', 'middle');
+            fingerNumber.textContent = finger;
+            this.svg.appendChild(fingerNumber);
+          }
         }
       }
     }

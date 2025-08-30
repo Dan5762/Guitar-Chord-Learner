@@ -47,8 +47,8 @@ const CHORD_LIBRARY = [
     notes: ['B', 'D#', 'F#'],
     frequencies: [246.94, 311.13, 369.99],
     fretPattern: {
-      strings: [2, 2, 4, 4, 4, 2],
-      fingers: [1, 1, 2, 3, 4, 1]
+      strings: [-1, 2, 4, 4, 4, 2],
+      fingers: [0, 1, 2, 3, 4, 1]
     }
   },
   {
@@ -57,8 +57,8 @@ const CHORD_LIBRARY = [
     notes: ['B', 'D', 'F#'],
     frequencies: [246.94, 293.66, 369.99],
     fretPattern: {
-      strings: [2, 2, 4, 4, 3, 2],
-      fingers: [1, 1, 3, 4, 2, 1]
+      strings: [-1, 2, 4, 4, 3, 2],
+      fingers: [0, 1, 3, 4, 2, 1]
     }
   },
   // C chords
@@ -68,8 +68,8 @@ const CHORD_LIBRARY = [
     notes: ['C', 'E', 'G'],
     frequencies: [261.63, 329.63, 392.00],
     fretPattern: {
-      strings: [3, 3, 2, 0, 1, 0],
-      fingers: [3, 3, 2, 0, 1, 0]
+      strings: [-1, 3, 2, 0, 1, 0],
+      fingers: [0, 3, 2, 0, 1, 0]
     }
   },
   {
@@ -78,8 +78,8 @@ const CHORD_LIBRARY = [
     notes: ['C', 'D#', 'G'],
     frequencies: [261.63, 311.13, 392.00],
     fretPattern: {
-      strings: [3, 3, 5, 5, 4, 3],
-      fingers: [1, 1, 3, 4, 2, 1]
+      strings: [-1, 3, 5, 5, 4, 3],
+      fingers: [0, 1, 3, 4, 2, 1]
     }
   },
   {
@@ -88,8 +88,8 @@ const CHORD_LIBRARY = [
     notes: ['C#', 'F', 'G#'],
     frequencies: [277.18, 349.23, 415.30],
     fretPattern: {
-      strings: [4, 4, 3, 1, 2, 1],
-      fingers: [3, 3, 2, 1, 4, 1]
+      strings: [-1, 4, 6, 6, 6, 4],
+      fingers: [0, 1, 2, 3, 4, 1]
     }
   },
   {
@@ -98,8 +98,8 @@ const CHORD_LIBRARY = [
     notes: ['C#', 'E', 'G#'],
     frequencies: [277.18, 329.63, 415.30],
     fretPattern: {
-      strings: [4, 4, 6, 6, 5, 4],
-      fingers: [1, 1, 3, 4, 2, 1]
+      strings: [-1, 4, 6, 6, 5, 4],
+      fingers: [0, 1, 3, 4, 2, 1]
     }
   },
   // D chords
@@ -232,8 +232,8 @@ const CHORD_LIBRARY = [
     notes: ['G#', 'C', 'D#'],
     frequencies: [207.65, 261.63, 311.13],
     fretPattern: {
-      strings: [4, 3, 1, 1, 4, 4],
-      fingers: [3, 2, 1, 1, 3, 4]
+      strings: [4, 6, 6, 5, 4, 4],
+      fingers: [1, 3, 4, 2, 1, 1]
     }
   },
   {
@@ -264,8 +264,8 @@ const CHORD_LIBRARY = [
     notes: ['B', 'D#', 'F#', 'A#'],
     frequencies: [246.94, 311.13, 369.99, 466.16],
     fretPattern: {
-      strings: [2, 2, 4, 3, 4, 2],
-      fingers: [1, 1, 3, 2, 4, 1]
+      strings: [-1, 2, 4, 3, 4, 2],
+      fingers: [0, 1, 3, 2, 4, 1]
     }
   },
   {
@@ -274,8 +274,8 @@ const CHORD_LIBRARY = [
     notes: ['C', 'E', 'G', 'B'],
     frequencies: [261.63, 329.63, 392.00, 493.88],
     fretPattern: {
-      strings: [3, 3, 2, 0, 0, 0],
-      fingers: [3, 3, 2, 0, 0, 0]
+      strings: [-1, 3, 2, 0, 0, 0],
+      fingers: [0, 3, 2, 0, 0, 0]
     }
   },
   {
@@ -386,8 +386,8 @@ const CHORD_LIBRARY = [
     notes: ['B', 'D', 'F#', 'A'],
     frequencies: [246.94, 293.66, 369.99, 440.00],
     fretPattern: {
-      strings: [2, 2, 4, 2, 3, 2],
-      fingers: [1, 1, 3, 1, 2, 1]
+      strings: [-1, 2, 0, 2, 0, 2],
+      fingers: [0, 2, 0, 3, 0, 4]
     }
   },
   {
@@ -396,8 +396,8 @@ const CHORD_LIBRARY = [
     notes: ['C', 'D#', 'G', 'A#'],
     frequencies: [261.63, 311.13, 392.00, 466.16],
     fretPattern: {
-      strings: [3, 3, 5, 3, 4, 3],
-      fingers: [1, 1, 3, 1, 2, 1]
+      strings: [-1, 3, 5, 3, 4, 3],
+      fingers: [0, 1, 3, 1, 2, 1]
     }
   },
   {

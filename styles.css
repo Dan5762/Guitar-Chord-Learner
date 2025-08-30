@@ -76,14 +76,154 @@ body::after {
     min-height: 100vh;
 }
 
-
-main {
+/* Main harmonic map area - center stage */
+#harmonic-main {
     flex: 1;
     display: flex;
-    gap: 2rem;
+    flex-direction: column;
     padding: 2rem;
-    max-width: 1600px;
+    max-width: 1200px;
     margin: 0 auto;
+    width: 100%;
+    padding-bottom: 100px; /* Leave space for tab selector */
+    background: transparent;
+}
+
+/* Tab selector at bottom - hidden on desktop */
+#tab-selector {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: none;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(20px);
+    border-top: 1px solid rgba(52, 73, 94, 0.1);
+    padding: 0.75rem 1rem;
+    gap: 0.5rem;
+    z-index: 100;
+}
+
+.tab-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.75rem 1.5rem;
+    background: transparent;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    color: #7f8c8d;
+    font-size: 0.75rem;
+    font-weight: 500;
+    min-width: 80px;
+}
+
+.tab-btn:hover {
+    background: rgba(52, 73, 94, 0.05);
+    color: #34495e;
+}
+
+.tab-btn.active {
+    background: rgba(52, 152, 219, 0.1);
+    color: #3498db;
+}
+
+.tab-icon {
+    font-size: 1.2rem;
+}
+
+.tab-label {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Tab panels - hidden on desktop, shown as fixed overlays on mobile */
+.tab-panel {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 80px;
+    z-index: 1000;
+    display: none;
+    overflow-y: auto;
+    margin: 1rem;
+    max-height: calc(100vh - 120px);
+}
+
+.tab-panel.active {
+    display: flex !important;
+    flex-direction: column;
+}
+
+/* Desktop layout - show all sections */
+@media (min-width: 1024px) {
+    #app {
+        display: grid;
+        grid-template-columns: 250px 1fr 250px;
+        grid-template-rows: 1fr;
+        grid-template-areas: "chord-library harmonic-main chord-diagrams";
+        gap: 2rem;
+        padding: 2rem;
+        max-width: 1600px;
+        margin: 0 auto;
+        min-height: 100vh;
+        align-items: start;
+    }
+    
+    #harmonic-main {
+        grid-area: harmonic-main;
+        padding: 0;
+        padding-bottom: 0;
+        max-width: none;
+        margin: 0;
+        align-self: start;
+        background: transparent;
+    }
+    
+    #chord-library {
+        grid-area: chord-library;
+        position: static !important;
+        display: flex !important;
+        margin: 0;
+        max-height: 80vh;
+        z-index: auto;
+        height: 80vh;
+        align-self: start;
+        overflow: hidden;
+    }
+    
+    #chord-diagrams {
+        grid-area: chord-diagrams;
+        position: static !important;
+        display: flex !important;
+        margin: 0;
+        max-height: 80vh;
+        height: 80vh;
+        z-index: auto;
+        align-self: start;
+        overflow: hidden;
+    }
+    
+    #tab-selector {
+        display: none;
+    }
+    
+    /* Ensure all panels have consistent styling */
+    .panel {
+        height: fit-content;
+    }
+    
+    /* Remove the ::before spacers as they're not needed with proper grid */
+    #chord-library::before,
+    #chord-diagrams::before {
+        display: none;
+    }
 }
 
 .panel {
@@ -98,10 +238,9 @@ main {
 }
 
 #chord-library {
-    flex: 0 0 320px;
     display: flex;
     flex-direction: column;
-    height: calc(100vh - 4rem); /* Match main region height */
+    height: 100%;
 }
 
 #chord-library h2 {
@@ -229,49 +368,94 @@ main {
     font-weight: 400;
 }
 
-#harmonic-navigator {
-    flex: 1;
+/* Harmonic map wrapper styles */
+
+#harmonic-map-wrapper {
     display: flex;
     flex-direction: column;
-    height: calc(100vh - 4rem); /* Match main region height */
-}
-
-#harmonic-navigator h2 {
-    font-size: 1.1rem;
-    font-weight: 500;
-    margin-bottom: 1.5rem;
-    color: #34495e;
-    letter-spacing: 0.5px;
-    text-transform: uppercase;
-}
-
-#harmonic-content {
-    display: flex;
-    gap: 2rem;
-    align-items: flex-start;
-    flex: 1;
+    gap: 1rem;
+    align-items: center;
     height: 100%;
 }
 
+#selector-row {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 0.5rem;
+}
+
+.selector-group {
+    position: relative;
+}
+
+#view-select, #context-select {
+    padding: 0.4rem 0.8rem;
+    border: 2px solid #ecf0f1;
+    border-radius: 6px;
+    background: white;
+    color: #7f8c8d;
+    font-size: 0.8rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    min-width: 140px;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+    background-position: right 0.5rem center;
+    background-repeat: no-repeat;
+    background-size: 1rem;
+    padding-right: 2rem;
+}
+
+#view-select:hover, #context-select:hover {
+    border-color: #3498db;
+    color: #2c3e50;
+}
+
+#view-select:focus, #context-select:focus {
+    outline: none;
+    border-color: #3498db;
+    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+    color: #2c3e50;
+}
+
+#view-select option:disabled, #context-select option:disabled {
+    color: #bdc3c7;
+    font-style: italic;
+}
+
+#view-select option:not(:disabled), #context-select option:not(:disabled) {
+    color: #2c3e50;
+}
+
+#context-select {
+    border-color: rgba(155, 89, 182, 0.3);
+}
+
+#context-select:hover {
+    border-color: #9b59b6;
+}
+
+#context-select:focus {
+    border-color: #9b59b6;
+    box-shadow: 0 0 0 3px rgba(155, 89, 182, 0.1);
+}
+
 #harmonic-map-container {
-    background: rgba(255, 255, 255, 1);
-    border: 2px dashed rgba(52, 152, 219, 0.3);
+    background: transparent;
     border-radius: 20px;
     padding: 2rem;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
-    flex: 1;
     position: relative;
     transition: all 0.3s ease;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100%;
+    flex: 1;
+    min-height: 400px;
 }
 
-#harmonic-map-container:hover {
-    border-color: rgba(52, 152, 219, 0.5);
-    background: rgba(52, 152, 219, 0.02);
-}
 
 #harmonic-map {
     border-radius: 12px;
@@ -282,8 +466,7 @@ main {
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
-    flex: 1;
-    max-width: 300px;
+    height: 100%;
 }
 
 #current-chord-display,
@@ -346,6 +529,120 @@ main {
     height: auto;
 }
 
+.chord-history-container {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    align-items: center;
+    padding: 0.75rem;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 12px;
+    border: 1px solid rgba(52, 73, 94, 0.1);
+}
+
+/* Desktop - more compact styling for 5 items */
+@media (min-width: 1024px) {
+    .chord-history-item {
+        padding: 0.5rem 1rem;
+        font-size: 0.9rem;
+    }
+}
+
+/* Mobile - position chord history above tabs and hide extra items */
+@media (max-width: 1023px) {
+    .chord-history-container {
+        position: fixed;
+        bottom: 80px;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 1000;
+        backdrop-filter: blur(20px);
+        background: rgba(255, 255, 255, 0.95);
+        box-shadow: 0 -2px 12px rgba(0, 0, 0, 0.1);
+        gap: 0.75rem;
+    }
+    
+    .chord-history-item {
+        padding: 0.6rem 1.2rem;
+    }
+    
+    .chord-history-item.desktop-only {
+        display: none;
+    }
+}
+
+.chord-history-item {
+    padding: 0.75rem 1.5rem;
+    background: white;
+    border-radius: 12px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #2c3e50;
+    border: 2px solid #ecf0f1;
+    min-width: 90px;
+    text-align: center;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.chord-history-item.empty {
+    color: #bdc3c7;
+    background: rgba(236, 240, 241, 0.3);
+    border-color: rgba(189, 195, 199, 0.2);
+    box-shadow: none;
+}
+
+.chord-history-item:not(.empty) {
+    animation: slideInFromRight 0.4s ease;
+    cursor: pointer;
+}
+
+.chord-history-item:not(.empty):hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.chord-history-item.current-chord {
+    background: linear-gradient(135deg, #3498db, #2980b9) !important;
+    color: white !important;
+    border-color: #2980b9 !important;
+    box-shadow: 0 3px 12px rgba(52, 152, 219, 0.3) !important;
+    transform: scale(1.05) !important;
+}
+
+.chord-history-item.current-chord:hover {
+    transform: scale(1.08) translateY(-2px) !important;
+    box-shadow: 0 5px 15px rgba(52, 152, 219, 0.4) !important;
+}
+
+.chord-history-item.selected {
+    background: linear-gradient(135deg, #3498db, #2980b9) !important;
+    color: white !important;
+    border-color: #2980b9 !important;
+    box-shadow: 0 4px 16px rgba(52, 152, 219, 0.4) !important;
+    transform: scale(1.15) !important;
+    opacity: 1 !important;
+}
+
+.chord-history-item[data-position="1"]:not(.empty) {
+    opacity: 0.85;
+}
+
+.chord-history-item[data-position="2"]:not(.empty) {
+    opacity: 0.7;
+}
+
+@keyframes slideInFromRight {
+    from {
+        transform: translateX(20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
 
 @keyframes pulse {
     0% { transform: scale(1); }
@@ -357,13 +654,46 @@ main {
     animation: pulse 0.5s ease-in-out;
 }
 
+/* Mobile and tablet - show tab system */
+@media (max-width: 1023px) {
+    #tab-selector {
+        display: flex;
+    }
+    
+    #harmonic-main {
+        padding-bottom: 80px;
+    }
+    
+    /* Hide sections by default on mobile - only show via tabs */
+    #chord-library,
+    #chord-diagrams {
+        display: none !important;
+    }
+    
+    /* Show sections only when they have active class */
+    #chord-library.active,
+    #chord-diagrams.active {
+        display: flex !important;
+    }
+    
+    /* Make diagram tab more compact on mobile */
+    #chord-diagrams.active {
+        height: auto !important;
+        min-height: auto !important;
+        flex-shrink: 0;
+        justify-content: flex-start;
+    }
+    
+    /* Hide next chord preview on mobile */
+    #next-chord-display {
+        display: none !important;
+    }
+}
+
 /* Mobile responsiveness */
 @media (max-width: 768px) {
-    main {
-        flex-direction: column;
-        gap: 1rem;
-        padding: 1rem;
-        max-width: 100%;
+    #harmonic-main {
+        padding: 0.5rem 1rem;
     }
     
     .panel {
@@ -371,11 +701,30 @@ main {
         border-radius: 15px;
     }
     
-    #chord-library {
-        flex: none;
-        height: auto;
-        order: 2; /* Move chord library below harmonic navigator on mobile */
-        max-height: 50vh;
+    #tab-selector {
+        padding: 0.5rem;
+        gap: 0.25rem;
+    }
+    
+    .tab-btn {
+        padding: 0.5rem 1rem;
+        min-width: 70px;
+        min-height: 44px;
+        touch-action: manipulation;
+    }
+    
+    .tab-icon {
+        font-size: 1rem;
+    }
+    
+    .tab-label {
+        font-size: 0.65rem;
+    }
+    
+    .tab-panel {
+        margin: 0.5rem;
+        bottom: 70px;
+        max-height: calc(100vh - 140px);
     }
     
     #chord-library h2 {
@@ -393,19 +742,17 @@ main {
         padding: 0.5rem 0.4rem;
         font-size: 0.7rem;
         min-width: 40px;
-        min-height: 44px; /* Better touch target */
+        min-height: 44px;
         touch-action: manipulation;
     }
     
     #chord-cards-container {
-        max-height: 200px;
         gap: 6px;
     }
     
     .chord-card {
         padding: 0.75rem;
         border-radius: 10px;
-        /* Better touch targets */
         min-height: 44px;
         touch-action: manipulation;
     }
@@ -419,32 +766,19 @@ main {
         font-size: 0.75rem;
     }
     
-    #harmonic-navigator {
-        flex: none;
-        height: auto;
-        order: 1; /* Harmonic navigator on top for mobile */
-    }
-    
-    #harmonic-content {
-        flex-direction: column;
-        gap: 1rem;
-    }
-    
     #harmonic-map-container {
         padding: 1rem;
-        height: 350px; /* Fixed height for mobile */
+        height: 350px;
         min-height: 350px;
     }
     
     #chord-displays-column {
-        flex-direction: row;
+        flex-direction: column;
         gap: 1rem;
-        max-width: 100%;
     }
     
     #current-chord-display,
     #next-chord-display {
-        flex: 1;
         padding: 1rem;
         border-radius: 12px;
     }
@@ -473,9 +807,8 @@ main {
 }
 
 @media (max-width: 480px) {
-    main {
-        padding: 0.75rem;
-        gap: 0.75rem;
+    #harmonic-main {
+        padding: 0.25rem 0.75rem;
     }
     
     .panel {
@@ -494,23 +827,40 @@ main {
     }
     
     #harmonic-map-container {
-        height: 280px;
-        min-height: 280px;
-        padding: 0.75rem;
+        height: 180px;
+        min-height: 180px;
+        padding: 0.5rem 0.75rem;
+        align-items: flex-start;
     }
     
     #chord-displays-column {
         flex-direction: column;
-        gap: 0.75rem;
+        gap: 0.5rem;
+        justify-content: flex-start;
+        padding-top: 1rem;
     }
     
     #current-chord-display,
     #next-chord-display {
-        padding: 0.75rem;
+        padding: 0.5rem;
+        flex-shrink: 0;
+    }
+    
+    #current-chord-display h3 {
+        margin-bottom: 0.2rem;
+        font-size: 0.7rem;
+    }
+    
+    #current-chord-name {
+        margin-bottom: 0.3rem;
+        font-size: 1rem;
     }
     
     .fretboard-container {
-        min-height: 100px;
+        min-height: 40px;
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
     }
     
     .chord-card {
@@ -523,5 +873,18 @@ main {
     
     .chord-notes {
         font-size: 0.7rem;
+    }
+    
+    .tab-btn {
+        padding: 0.4rem 0.8rem;
+        min-width: 60px;
+    }
+    
+    .tab-icon {
+        font-size: 0.9rem;
+    }
+    
+    .tab-label {
+        font-size: 0.6rem;
     }
 }

@@ -110,6 +110,15 @@ function handleDragLeave(e) {
 function handleChordNavigation(chordName) {
     if (window.harmonicMap) {
         window.harmonicMap.navigateToChord(chordName);
+        
+        // On mobile, automatically switch to harmonic view after selecting chord
+        if (window.innerWidth < 1024 && window.switchTab) {
+            // Switch to harmonic view and activate the harmonic tab
+            const harmonicTab = document.querySelector('[data-tab="harmonic-view"]');
+            if (harmonicTab) {
+                harmonicTab.click();
+            }
+        }
     }
 }
 
